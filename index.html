@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gata-Gata Gacha Machine — Color Customizer with Ordering</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="src/styles.css" />
+
+  <script src="src/vendor/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div id="app">
+
+    <!-- ── Header ─────────────────────────────────────────────────────── -->
+  <header class="app-chrome">
+      <h1>⚙️ Gata-Gata Gacha Machine — Color Customizer</h1>
+      <div class="header-actions">
+        <button id="btn-reset-colors" class="btn btn-secondary" title="Reset all parts to white">
+          🔄 Reset Colors
+        </button>
+        <button id="btn-share" class="btn btn-secondary" title="Copy shareable link">
+          🔗 Share
+        </button>
+        <button id="btn-export-pdf" class="btn btn-primary" title="Export build blueprint PDF">
+          📄 Export PDF
+        </button>
+      </div>
+    </header>
+
+    <div id="instruction-banner" class="info-banner" role="note">
+      <span class="banner-icon">ℹ️</span>
+      <strong>How to use:</strong> Click a part of the machine, then choose a color from the palette to customize your gacha machine.
+    </div>
+
+    <!-- ── Parts sidebar ──────────────────────────────────────────────── -->
+    <aside id="sidebar" class="panel-window">
+      <h2>Parts</h2>
+      <!-- Windows material selector -->
+      <div id="windows-material-selector">
+        <h3>Windows</h3>
+        <label class="windows-option">
+          <input type="radio" name="windows-material" value="printed" id="windows-printed" checked />
+          3D printed windows
+        </label>
+        <label class="windows-option">
+          <input type="radio" name="windows-material" value="acrylic" id="windows-acrylic" />
+          Clear acrylic windows
+        </label>
+      </div>
+      <ul id="parts-list"></ul>
+    </aside>
+
+    <!-- ── 2D Viewer ──────────────────────────────────────────────────── -->
+    <div id="viewer-wrap" class="panel-window">
+      <h2>Machine Preview</h2>
+      <div class="viewer-toolbar">
+        <div id="view-selector" role="tablist" aria-label="Machine view selector">
+          <button class="view-tab active" type="button" data-view="front" role="tab" aria-selected="true">
+            Front
+          </button>
+          <button class="view-tab" type="button" data-view="side" role="tab" aria-selected="false">
+            Side
+          </button>
+          <button class="view-tab" type="button" data-view="back" role="tab" aria-selected="false">
+            Back
+          </button>
+        </div>
+        <div id="zoom-controls" aria-label="Preview zoom controls">
+          <button id="btn-zoom-in" class="btn zoom-btn" type="button" title="Zoom in">+</button>
+          <button id="btn-zoom-out" class="btn zoom-btn" type="button" title="Zoom out">−</button>
+          <button id="btn-zoom-reset" class="btn zoom-btn zoom-reset" type="button" title="Reset zoom">Reset</button>
+        </div>
+      </div>
+      <div id="viewer-stage">
+        <div id="viewer">
+          <p style="color:#8892a4;font-size:0.9rem;">Loading machine preview…</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Color palette panel ────────────────────────────────────────── -->
+    <section id="palette-panel" class="panel-window">
+      <h2>Bambu PLA Colors</h2>
+      <div id="selected-info">
+        <span id="selected-color"></span>
+      </div>
+      <div id="randomize-bar">
+        <label for="harmony-select" class="harmony-label">Harmony:</label>
+        <select id="harmony-select" class="harmony-select">
+          <option value="analogous">Analogous</option>
+          <option value="complementary">Complementary</option>
+          <option value="split-complementary">Split-Complementary</option>
+          <option value="triad">Triad</option>
+          <option value="square">Square</option>
+          <option value="monochromatic">Monochromatic</option>
+        </select>
+        <button id="btn-randomize" class="btn btn-secondary" title="Randomize with Your Colors (if set) or the selected harmony">
+          🎲 Randomize
+        </button>
+      </div>
+      <div id="your-colors-section" class="palette-subpanel">
+        <div class="subpanel-title-row">
+          <h3>Your Colors</h3>
+          <button id="btn-clear-active-user-color" class="btn btn-secondary btn-sm" type="button" title="Clear active slot">
+            Clear Slot
+          </button>
+        </div>
+        <div id="your-colors-tray" aria-label="Your Colors tray"></div>
+      </div>
+      <div id="cost-estimate-section" class="palette-subpanel cost-panel">
+        <div class="subpanel-title-row">
+          <h3>💰 Cost Estimate</h3>
+        </div>
+        <div id="cost-breakdown">
+          <div class="cost-row">
+            <span class="cost-label">Filament:</span>
+            <span class="cost-value" id="cost-filament">$0.00</span>
+          </div>
+          <div class="cost-row">
+            <span class="cost-label">Machine Time:</span>
+            <span class="cost-value" id="cost-machine">$20.00</span>
+          </div>
+          <div class="cost-row cost-addon-row">
+            <label class="cost-addon-label">
+              <input type="checkbox" id="include-balls-checkbox" />
+              <span>Clear Balls (50)</span>
+            </label>
+            <span class="cost-value" id="cost-balls">—</span>
+          </div>
+          <div class="cost-row cost-warning">
+            <span class="cost-icon">⚠️</span>
+            <span class="cost-warning-text">Filament rounded up to 1kg spools</span>
+          </div>
+          <div class="cost-divider"></div>
+          <div class="cost-row cost-total">
+            <span class="cost-label">TOTAL:</span>
+            <span class="cost-value" id="cost-total">$20.00</span>
+          </div>
+          <div id="filament-detail" class="cost-detail"></div>
+        </div>
+      </div>
+      <div id="saved-builds-section" class="palette-subpanel">
+        <div class="subpanel-title-row">
+          <h3>Saved Builds</h3>
+          <button id="btn-save-build" class="btn btn-secondary btn-sm" type="button" title="Save current build">
+            💾 Save Build
+          </button>
+        </div>
+        <ul id="saved-builds-list"></ul>
+      </div>
+      <div id="palette-scroll">
+        <div id="palette-grid"></div>
+      </div>
+      <div id="color-name"></div>
+    </section>
+
+    <!-- ── Footer ─────────────────────────────────────────────────────── -->
+    <footer class="app-chrome">
+      <span>Lightning Bug Club &mdash; <a href="https://lightningbugclub.com" target="_blank" rel="noopener">lightningbugclub.com</a></span>
+      <span>Phase 1: 2D Orthographic with Ordering &mdash; Phase 2: Three.js 3D (roadmap)</span>
+    </footer>
+
+  </div>
+
+  <!-- App entry point (ES module) -->
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>

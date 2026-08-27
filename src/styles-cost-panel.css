@@ -1,0 +1,134 @@
+/* Cost estimation panel styles (Windows 95 theme) */
+
+.cost-panel {
+  background: #d4d0c8;
+}
+
+#cost-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+  padding: 8px;
+}
+
+.cost-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 6px;
+  background: #cfcfcf;
+  border-top: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+}
+
+.cost-label {
+  font-weight: 500;
+  color: #000000;
+}
+
+.cost-value {
+  font-weight: 700;
+  color: #000080;
+  text-align: right;
+}
+
+.cost-addon-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 6px;
+}
+
+.cost-addon-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  flex: 1;
+  font-weight: 500;
+}
+
+.cost-addon-label input[type="checkbox"] {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  accent-color: #000080;
+}
+
+.cost-addon-label span {
+  color: #000000;
+  user-select: none;
+}
+
+.cost-warning {
+  background: #fffacd;
+  border-top: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
+  border-right: 1px solid #808080;
+  border-bottom: 1px solid #808080;
+  gap: 6px;
+  padding: 5px 6px;
+  font-size: 0.8rem;
+  color: #8b6914;
+}
+
+.cost-warning-text {
+  flex: 1;
+}
+
+.cost-divider {
+  height: 1px;
+  background: #808080;
+  margin: 2px 0;
+}
+
+.cost-total {
+  background: #d4d0c8;
+  border: 2px solid #808080;
+  padding: 6px 8px;
+  font-size: 1.05rem;
+}
+
+.cost-total .cost-label {
+  font-weight: 700;
+  color: #000000;
+}
+
+.cost-total .cost-value {
+  font-size: 1.15rem;
+  color: #00aa00;
+}
+
+.cost-detail {
+  margin-top: 8px;
+  padding: 6px;
+  background: #e8e8e8;
+  border: 1px solid #808080;
+  font-size: 0.8rem;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.cost-detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+  font-family: monospace;
+  color: #333333;
+}
+
+.cost-detail-color {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cost-detail-amount {
+  text-align: right;
+  margin-left: 8px;
+  min-width: 50px;
+}
