@@ -17,6 +17,7 @@ import {
   pushStateToURL,
   resetSelectionsToDefault,
   setIncludeBalls,
+  getExplicitSelections,
 } from './state.js';
 import {
   initViewer,
@@ -65,11 +66,13 @@ async function init() {
   // ── Restore state from URL (before init so the viewer gets initial colors) ─
   decodeStateFromURL();
 
-  // Apply default colors for parts that have no URL selection
+  // Apply default colors for parts that have no URL selection, for display
+  // purposes only. These are marked as non-explicit so they never leak into
+  // the cost estimate unless the user actually chooses them.
   const state = getState();
   parts.forEach(part => {
     if (!state.selections[part.id]) {
-      setPartColor(part.id, part.defaultColorId);
+      setPartColor(part.id, part.defaultColorId, { explicit: false });
     }
   });
 
@@ -199,6 +202,7 @@ async function init() {
       await exportPDF({
         previewDataURLs,
         selections: getState().selections,
+        explicitSelections: getExplicitSelections(),
         windowsMaterial: getState().windowsMaterial,
         parts: getParts(),
         colors: getColors(),
@@ -357,43 +361,57 @@ function _wireCostPanel(parts) {
 }
 
 function _updateCostPanel(state, parts) {
-  const estimate = calculateBuildCost(state.selections, _filamentUsage, parts, state.includeBalls);
+  const explicitSelections = getExplicitSelections();
+  const estimate = calculateBuildCost(explicitSelections, _filamentUsage, parts, state.includeBalls);
 
-  // Update cost displays
-  document.getElementById('cost-filament').textContent = formatCost(estimate.filament.totalCost);
-  document.getElementById('cost-machine').textContent = formatCost(estimate.machineTime);
+  // Update cost displays — Bitty and Biggy filament costs differ, everything
+  // else (machine time, balls add-on) is shared across both sizes.
+  document.getElementById('cost-filament-bitty').textContent = formatCost(estimate.bitty.filament.totalCost);
+  document.getElementById('cost-filament-biggy').textContent = formatCost(estimate.biggy.filament.totalCost);
+  document.getElementById('cost-machine').textContent = formatCost(estimate.bitty.machineTime);
   document.getElementById('cost-balls').textContent = state.includeBalls
-    ? formatCost(estimate.balls.cost)
+    ? formatCost(estimate.bitty.balls.cost)
     : '—';
-  document.getElementById('cost-total').textContent = formatCost(estimate.total);
+  document.getElementById('cost-total-bitty').textContent = formatCost(estimate.bitty.total);
+  document.getElementById('cost-total-biggy').textContent = formatCost(estimate.biggy.total);
 
-  // Update filament breakdown detail
+  // Update filament breakdown detail (grams/cost per color, Bitty vs Biggy)
   const detailEl = document.getElementById('filament-detail');
-  if (detailEl && Object.keys(estimate.filament.colorBreakdown).length > 0) {
+  if (detailEl) {
     detailEl.innerHTML = '';
-    const colors = getColors();
-    const colorMap = {};
-    colors.forEach(c => { colorMap[c.id] = c; });
+    const colorIds = new Set([
+      ...Object.keys(estimate.bitty.filament.colorBreakdown),
+      ...Object.keys(estimate.biggy.filament.colorBreakdown),
+    ]);
 
-    Object.entries(estimate.filament.colorBreakdown).forEach(([colorId, data]) => {
-      const color = colorMap[colorId];
-      if (!color) return;
+    if (colorIds.size > 0) {
+      const colors = getColors();
+      const colorMap = {};
+      colors.forEach(c => { colorMap[c.id] = c; });
 
-      const row = document.createElement('div');
-      row.className = 'cost-detail-row';
+      colorIds.forEach(colorId => {
+        const color = colorMap[colorId];
+        if (!color) return;
+        const bittyData = estimate.bitty.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
+        const biggyData = estimate.biggy.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
 
-      const name = document.createElement('span');
-      name.className = 'cost-detail-color';
-      name.textContent = `${color.name}:`;
+        const row = document.createElement('div');
+        row.className = 'cost-detail-row';
 
-      const amount = document.createElement('span');
-      amount.className = 'cost-detail-amount';
-      amount.textContent = `${data.grams}g → ${data.kgRounded}kg × $${estimate.filament.totalCost / estimate.filament.totalKg}`;
+        const name = document.createElement('span');
+        name.className = 'cost-detail-color';
+        name.textContent = `${color.name}:`;
 
-      row.appendChild(name);
-      row.appendChild(amount);
-      detailEl.appendChild(row);
-    });
+        const amount = document.createElement('span');
+        amount.className = 'cost-detail-amount';
+        amount.textContent = `Bitty ${bittyData.grams}g (${bittyData.kgRounded}kg, ${formatCost(bittyData.cost)}) · `
+          + `Biggy ${biggyData.grams}g (${biggyData.kgRounded}kg, ${formatCost(biggyData.cost)})`;
+
+        row.appendChild(name);
+        row.appendChild(amount);
+        detailEl.appendChild(row);
+      });
+    }
   }
 }
 
