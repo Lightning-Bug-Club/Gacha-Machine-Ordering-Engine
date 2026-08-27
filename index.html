@@ -114,13 +114,19 @@
           <h3>💰 Cost Estimate</h3>
         </div>
         <div id="cost-breakdown">
+          <div class="cost-row cost-size-header">
+            <span class="cost-label"></span>
+            <span class="cost-value cost-size-label">Bitty</span>
+            <span class="cost-value cost-size-label">Biggy</span>
+          </div>
           <div class="cost-row">
             <span class="cost-label">Filament:</span>
-            <span class="cost-value" id="cost-filament">$0.00</span>
+            <span class="cost-value" id="cost-filament-bitty">$0.00</span>
+            <span class="cost-value" id="cost-filament-biggy">$0.00</span>
           </div>
           <div class="cost-row">
             <span class="cost-label">Machine Time:</span>
-            <span class="cost-value" id="cost-machine">$20.00</span>
+            <span class="cost-value cost-value-shared" id="cost-machine">$20.00</span>
           </div>
           <div class="cost-row cost-addon-row">
             <label class="cost-addon-label">
@@ -136,7 +142,8 @@
           <div class="cost-divider"></div>
           <div class="cost-row cost-total">
             <span class="cost-label">TOTAL:</span>
-            <span class="cost-value" id="cost-total">$20.00</span>
+            <span class="cost-value" id="cost-total-bitty">$20.00</span>
+            <span class="cost-value" id="cost-total-biggy">$20.00</span>
           </div>
           <div id="filament-detail" class="cost-detail"></div>
         </div>

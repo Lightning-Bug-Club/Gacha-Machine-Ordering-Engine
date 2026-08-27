@@ -8,6 +8,7 @@ export async function exportPDF({
   previewDataURLs = null,
   previewDataURL = null,
   selections,
+  explicitSelections = selections,
   windowsMaterial = 'printed',
   parts,
   colors,
@@ -212,7 +213,7 @@ export async function exportPDF({
     filamentUsage,
   });
 
-  const costEstimate = calculateBuildCost(selections, filamentUsage, parts, includeBalls);
+  const costEstimate = calculateBuildCost(explicitSelections, filamentUsage, parts, includeBalls);
   yPos = _drawCostEstimate(doc, {
     yPos: yPos + 7,
     margin: MARGIN,
@@ -238,20 +239,49 @@ export async function exportPDF({
     };
 
     const rowH = 6.5;
+    const { bitty, biggy } = estimate;
     const rows = [
-      [`Filament (${estimate.filament.totalKg} kg)`, formatCost(estimate.filament.totalCost)],
-      ['Machine Time', formatCost(estimate.machineTime)],
+      [
+        `Filament (Bitty: ${bitty.filament.totalKg} kg / Biggy: ${biggy.filament.totalKg} kg)`,
+        formatCost(bitty.filament.totalCost),
+        formatCost(biggy.filament.totalCost),
+      ],
+      ['Machine Time', formatCost(bitty.machineTime), formatCost(biggy.machineTime)],
     ];
-    if (estimate.ballsAdded) {
-      rows.push([`Clear Plastic Balls (${estimate.balls.quantity})`, formatCost(estimate.balls.cost)]);
+    if (bitty.ballsAdded) {
+      rows.push([
+        `Clear Plastic Balls (${bitty.balls.quantity})`,
+        formatCost(bitty.balls.cost),
+        formatCost(biggy.balls.cost),
+      ]);
     }
 
-    ensureSpace(6 + rows.length * rowH + rowH + 10);
+    ensureSpace(6 + 6 + rows.length * rowH + rowH + 10);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
     doc.setTextColor(0);
     doc.text('Cost Estimate', margin, yPos);
     yPos += 6;
+
+    const labelW = contentWidth * 0.6;
+    const colW = (contentWidth - labelW) / 2;
+    const bittyColX = margin + labelW;
+    const biggyColX = margin + labelW + colW;
+
+    // Bitty / Biggy column header
+    doc.setFillColor(50, 50, 50);
+    doc.rect(margin, yPos, contentWidth, rowH, 'F');
+    doc.setDrawColor(215);
+    doc.rect(margin, yPos, contentWidth, rowH, 'S');
+    doc.line(bittyColX, yPos, bittyColX, yPos + rowH);
+    doc.line(biggyColX, yPos, biggyColX, yPos + rowH);
+    doc.setTextColor(255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
+    doc.text('Bitty', bittyColX + colW / 2, yPos + rowH / 2 + 1.5, { align: 'center' });
+    doc.text('Biggy', biggyColX + colW / 2, yPos + rowH / 2 + 1.5, { align: 'center' });
+    doc.setTextColor(0);
+    yPos += rowH;
 
     doc.setDrawColor(215);
     doc.setFont('helvetica', 'normal');
@@ -262,8 +292,11 @@ export async function exportPDF({
         doc.rect(margin, yPos, contentWidth, rowH, 'F');
       }
       doc.rect(margin, yPos, contentWidth, rowH, 'S');
+      doc.line(bittyColX, yPos, bittyColX, yPos + rowH);
+      doc.line(biggyColX, yPos, biggyColX, yPos + rowH);
       doc.text(row[0], margin + 2, yPos + rowH / 2 + 1.5);
-      doc.text(row[1], margin + contentWidth - 2, yPos + rowH / 2 + 1.5, { align: 'right' });
+      doc.text(row[1], bittyColX + colW - 2, yPos + rowH / 2 + 1.5, { align: 'right' });
+      doc.text(row[2], biggyColX + colW - 2, yPos + rowH / 2 + 1.5, { align: 'right' });
       yPos += rowH;
     });
 
@@ -271,10 +304,13 @@ export async function exportPDF({
     doc.rect(margin, yPos, contentWidth, rowH, 'F');
     doc.setDrawColor(215);
     doc.rect(margin, yPos, contentWidth, rowH, 'S');
+    doc.line(bittyColX, yPos, bittyColX, yPos + rowH);
+    doc.line(biggyColX, yPos, biggyColX, yPos + rowH);
     doc.setTextColor(255);
     doc.setFont('helvetica', 'bold');
     doc.text('Total Estimated Cost', margin + 2, yPos + rowH / 2 + 1.5);
-    doc.text(formatCost(estimate.total), margin + contentWidth - 2, yPos + rowH / 2 + 1.5, { align: 'right' });
+    doc.text(formatCost(bitty.total), bittyColX + colW - 2, yPos + rowH / 2 + 1.5, { align: 'right' });
+    doc.text(formatCost(biggy.total), biggyColX + colW - 2, yPos + rowH / 2 + 1.5, { align: 'right' });
     doc.setTextColor(0);
     yPos += rowH;
 

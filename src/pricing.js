@@ -13,23 +13,27 @@ const BALLS_ADDON_COST = 25;
 const BALLS_ADDON_QUANTITY = 50;
 
 /**
- * Calculate total filament grams needed by color.
+ * Calculate total filament grams needed by color, for a given machine size.
+ * Only parts that are actually present in `selections` (i.e. explicitly
+ * chosen by the user) are counted — default/placeholder colors that were
+ * never selected must not leak into the estimate.
+ *
  * Returns a map: { colorId: { grams, kgRounded } }
  */
-export function calculateFilamentByColor(selections, filamentUsage, parts) {
+export function calculateFilamentByColor(selections, filamentUsage, parts, size = 'bitty') {
   const result = {};
 
   // Group parts by color
   Object.entries(selections).forEach(([partId, colorId]) => {
+    if (!colorId) return;
     if (!filamentUsage[partId]) return;
 
     const usage = filamentUsage[partId];
     const part = parts.find(p => p.id === partId);
     if (!part) return;
 
-    // Calculate total grams for this part (qty * filament)
-    // Use bitty size by default (most common)
-    const gramsPerPart = usage.bitty || 0;
+    // Calculate total grams for this part (qty * filament) for the requested size.
+    const gramsPerPart = usage[size] || 0;
 
     if (!result[colorId]) {
       result[colorId] = { grams: 0, kgRounded: 0 };
@@ -48,11 +52,11 @@ export function calculateFilamentByColor(selections, filamentUsage, parts) {
 }
 
 /**
- * Calculate the total filament cost.
+ * Calculate the total filament cost for a given machine size ('bitty' or 'biggy').
  * Returns: { colorBreakdown, totalCost, totalKg, totalGrams }
  */
-export function calculateFilamentCost(selections, filamentUsage, parts) {
-  const filamentByColor = calculateFilamentByColor(selections, filamentUsage, parts);
+export function calculateFilamentCost(selections, filamentUsage, parts, size = 'bitty') {
+  const filamentByColor = calculateFilamentByColor(selections, filamentUsage, parts, size);
   let totalCost = 0;
   let totalKg = 0;
   let totalGrams = 0;
@@ -75,18 +79,10 @@ export function calculateFilamentCost(selections, filamentUsage, parts) {
 }
 
 /**
- * Calculate the complete build cost estimate.
- * Returns: {
- *   filament: { colorBreakdown, totalCost, totalKg, totalGrams },
- *   machineTime: MACHINE_TIME_COST,
- *   balls: { cost, quantity },
- *   ballsAdded: boolean,
- *   subtotal: number,
- *   total: number
- * }
+ * Build a single-size cost estimate: { filament, machineTime, balls, ballsAdded, subtotal, total }
  */
-export function calculateBuildCost(selections, filamentUsage, parts, includeBalls = false) {
-  const filament = calculateFilamentCost(selections, filamentUsage, parts);
+function _buildEstimate(selections, filamentUsage, parts, includeBalls, size) {
+  const filament = calculateFilamentCost(selections, filamentUsage, parts, size);
 
   const balls = includeBalls
     ? { cost: BALLS_ADDON_COST, quantity: BALLS_ADDON_QUANTITY }
@@ -105,6 +101,33 @@ export function calculateBuildCost(selections, filamentUsage, parts, includeBall
 }
 
 /**
+ * Calculate the complete build cost estimate for both Bitty and Biggy sizes,
+ * since their filament usage (and therefore cost) differs.
+ *
+ * Only colors/parts actually present in `selections` are counted — default
+ * placeholder colors that were never chosen by the user are excluded.
+ *
+ * Returns: {
+ *   bitty: { filament, machineTime, balls, ballsAdded, subtotal, total },
+ *   biggy: { filament, machineTime, balls, ballsAdded, subtotal, total },
+ *   // Backward-compatible fields mirroring the Bitty estimate:
+ *   filament, machineTime, balls, ballsAdded, subtotal, total
+ * }
+ */
+export function calculateBuildCost(selections, filamentUsage, parts, includeBalls = false) {
+  const bitty = _buildEstimate(selections, filamentUsage, parts, includeBalls, 'bitty');
+  const biggy = _buildEstimate(selections, filamentUsage, parts, includeBalls, 'biggy');
+
+  return {
+    bitty,
+    biggy,
+    // Preserve the previous shape (defaults to the Bitty estimate) so existing
+    // callers that only look at the top-level fields keep working.
+    ...bitty,
+  };
+}
+
+/**
  * Format a cost for display (USD).
  */
 export function formatCost(value) {
@@ -118,8 +141,23 @@ export function formatCost(value) {
 
 /**
  * Get the cost estimate summary as a human-readable string.
+ * Accepts either a single-size estimate (with `filament`/`machineTime`/etc.)
+ * or a combined estimate (with `bitty`/`biggy` sub-estimates), in which case
+ * both sizes are summarized.
  */
 export function getCostSummary(estimate) {
+  if (estimate.bitty && estimate.biggy) {
+    const lines = [];
+    lines.push('Bitty:');
+    lines.push(_formatSizeSummary(estimate.bitty).map(l => `  ${l}`).join('\n'));
+    lines.push('Biggy:');
+    lines.push(_formatSizeSummary(estimate.biggy).map(l => `  ${l}`).join('\n'));
+    return lines.join('\n');
+  }
+  return _formatSizeSummary(estimate).join('\n');
+}
+
+function _formatSizeSummary(estimate) {
   const lines = [];
   lines.push(`Filament: ${formatCost(estimate.filament.totalCost)} (${estimate.filament.totalKg} kg)`);
   lines.push(`Machine Time: ${formatCost(estimate.machineTime)}`);
@@ -129,5 +167,5 @@ export function getCostSummary(estimate) {
   lines.push(`---`);
   lines.push(`Subtotal: ${formatCost(estimate.subtotal)}`);
   lines.push(`Total: ${formatCost(estimate.total)}`);
-  return lines.join('\n');
+  return lines;
 }

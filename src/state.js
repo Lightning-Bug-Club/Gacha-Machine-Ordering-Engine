@@ -3,7 +3,10 @@
  *
  * State shape:
  *   {
- *     selections:      { [partId]: colorId },  // part→color assignments
+ *     selections:         { [partId]: colorId },  // part→color assignments (may include defaults)
+ *     explicitSelections:  { [partId]: true },     // parts actually chosen by the user (or restored
+ *                                                   // from a shared URL), used to keep default
+ *                                                   // placeholder colors out of cost estimates
  *     selectedPartId:  string | null,           // currently highlighted part
  *     windowsMaterial: 'printed' | 'acrylic',   // windows material choice
  *     includeBalls:    boolean,                  // whether to add 50 clear balls
@@ -14,6 +17,7 @@ const _listeners = [];
 
 let _state = {
   selections: {},
+  explicitSelections: {},
   selectedPartId: null,
   windowsMaterial: 'printed', // default: 3D printed windows
   includeBalls: false,
@@ -24,6 +28,7 @@ export function getState() {
   return {
     ..._state,
     selections: { ..._state.selections },
+    explicitSelections: { ..._state.explicitSelections },
   };
 }
 
@@ -32,11 +37,32 @@ export function getSelections() {
   return { ..._state.selections };
 }
 
-/** Set the color for a part and notify listeners. */
-export function setPartColor(partId, colorId) {
+/**
+ * Return only the selections that were explicitly chosen by the user (or
+ * restored from a shared URL) — i.e. excluding parts that are only showing
+ * their default/placeholder color. Used for cost estimation so unselected
+ * parts never contribute to the estimate.
+ */
+export function getExplicitSelections() {
+  const explicit = {};
+  Object.keys(_state.explicitSelections).forEach(partId => {
+    if (_state.selections[partId]) explicit[partId] = _state.selections[partId];
+  });
+  return explicit;
+}
+
+/**
+ * Set the color for a part and notify listeners.
+ * Pass `{ explicit: false }` when filling in a default/placeholder color so
+ * it is not treated as a user selection for cost estimation purposes.
+ */
+export function setPartColor(partId, colorId, { explicit = true } = {}) {
   _state = {
     ..._state,
     selections: { ..._state.selections, [partId]: colorId },
+    explicitSelections: explicit
+      ? { ..._state.explicitSelections, [partId]: true }
+      : _state.explicitSelections,
   };
   _notify();
 }
@@ -44,10 +70,12 @@ export function setPartColor(partId, colorId) {
 /** Reset all part color selections to their default color (e.g. white for all). */
 export function resetSelectionsToDefault(parts) {
   const defaults = {};
+  const explicit = {};
   parts.forEach(part => {
     defaults[part.id] = part.defaultColorId;
+    explicit[part.id] = true;
   });
-  _state = { ..._state, selections: defaults };
+  _state = { ..._state, selections: defaults, explicitSelections: explicit };
   _notify();
 }
 
@@ -59,7 +87,9 @@ export function setSelectedPart(partId) {
 
 /** Replace the entire selections map (e.g. when restoring from URL). */
 export function loadSelections(selections) {
-  _state = { ..._state, selections: { ...selections } };
+  const explicit = {};
+  Object.keys(selections).forEach(partId => { explicit[partId] = true; });
+  _state = { ..._state, selections: { ...selections }, explicitSelections: explicit };
   _notify();
 }
 

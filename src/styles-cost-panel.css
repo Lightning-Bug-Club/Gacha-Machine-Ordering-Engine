@@ -35,6 +35,30 @@
   text-align: right;
 }
 
+.cost-size-header {
+  background: transparent;
+  border: none;
+  padding: 0 6px;
+}
+
+.cost-size-label {
+  color: #000000;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  min-width: 60px;
+}
+
+.cost-value-shared {
+  min-width: 60px;
+  text-align: right;
+  margin-left: auto;
+}
+
+.cost-row .cost-value + .cost-value {
+  min-width: 60px;
+}
+
 .cost-addon-row {
   display: flex;
   justify-content: space-between;
