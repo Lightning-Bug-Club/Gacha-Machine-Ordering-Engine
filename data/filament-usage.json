@@ -1,0 +1,18 @@
+{
+  "bottom-plate-mouth": { "bitty": 403, "biggy": 591 },
+  "bottom-chamber": { "bitty": 588, "biggy": 846 },
+  "window": { "bitty": 84, "biggy": 150 },
+  "mid-plate": { "bitty": 230, "biggy": 345 },
+  "lid": { "bitty": 180, "biggy": 262 },
+  "knob": { "bitty": 27, "biggy": 41 },
+  "coin": { "bitty": 87, "biggy": 144 },
+  "top-chamber": { "bitty": 243, "biggy": 353 },
+  "back-cover": { "bitty": 25, "biggy": 40 },
+  "coin-mech-front-plate": { "bitty": 44, "biggy": 66 },
+  "rear-lock-knob": { "bitty": 4, "biggy": 6 },
+  "hole-blocker": { "bitty": 48, "biggy": 72 },
+  "coin-mech-gear": { "bitty": 11, "biggy": 16 },
+  "coin-mech-back-plate": { "bitty": 22, "biggy": 33 },
+  "main-gear": { "bitty": 182, "biggy": 275 },
+  "lid-lock": { "bitty": 6, "biggy": 6 }
+}
