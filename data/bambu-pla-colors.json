@@ -1,0 +1,1128 @@
+[
+  {
+    "id": "basic-pla-jade-white",
+    "name": "Jade White",
+    "hex": "#FFFFFF",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-black",
+    "name": "Black",
+    "hex": "#000000",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-silver",
+    "name": "Silver",
+    "hex": "#A6A9AA",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-gray",
+    "name": "Gray",
+    "hex": "#8E9089",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-light-gray",
+    "name": "Light Gray",
+    "hex": "#D1D3D5",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-dark-gray",
+    "name": "Dark Gray",
+    "hex": "#545454",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-red",
+    "name": "Red",
+    "hex": "#C12E1F",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-beige",
+    "name": "Beige",
+    "hex": "#F7E6DE",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-magenta",
+    "name": "Magenta",
+    "hex": "#EC008C",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-pink",
+    "name": "Pink",
+    "hex": "#F55A74",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-hot-pink",
+    "name": "Hot Pink",
+    "hex": "#F5547C",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-maroon-red",
+    "name": "Maroon Red",
+    "hex": "#9D2235",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-orange",
+    "name": "Orange",
+    "hex": "#FF6A13",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-pumpkin-orange",
+    "name": "Pumpkin Orange",
+    "hex": "#FF9016",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-yellow",
+    "name": "Yellow",
+    "hex": "#F4EE2A",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-gold",
+    "name": "Gold",
+    "hex": "#E4BD68",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-sunflower-yellow",
+    "name": "Sunflower Yellow",
+    "hex": "#FEC600",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-bambu-green",
+    "name": "Bambu Green",
+    "hex": "#00AE42",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-mistletoe-green",
+    "name": "Mistletoe Green",
+    "hex": "#3F8E43",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-bright-green",
+    "name": "Bright Green",
+    "hex": "#BECF00",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-blue",
+    "name": "Blue",
+    "hex": "#0A2989",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-blue-gray",
+    "name": "Blue Gray",
+    "hex": "#5B6579",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-cyan",
+    "name": "Cyan",
+    "hex": "#0086D6",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-cobalt-blue",
+    "name": "Cobalt Blue",
+    "hex": "#0056B8",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-turquoise",
+    "name": "Turquoise",
+    "hex": "#00B1B7",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-purple",
+    "name": "Purple",
+    "hex": "#5E43B7",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-indigo-purple",
+    "name": "Indigo Purple",
+    "hex": "#482960",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-brown",
+    "name": "Brown",
+    "hex": "#9D432C",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-bronze",
+    "name": "Bronze",
+    "hex": "#847D48",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "basic-pla-cocoa-brown",
+    "name": "Cocoa Brown",
+    "hex": "#6F5034",
+    "series": "Basic PLA",
+    "finish": "basic",
+    "url": "https://store.bambulab.com/products/pla-basic-filament"
+  },
+  {
+    "id": "matte-pla-ivory-white",
+    "name": "Matte Ivory White",
+    "hex": "#FFFFFF",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-charcoal",
+    "name": "Matte Charcoal",
+    "hex": "#000000",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-ash-grey",
+    "name": "Matte Ash Grey",
+    "hex": "#9B9EA0",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-bone-white",
+    "name": "Matte Bone White",
+    "hex": "#CBC6B8",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-nardo-gray",
+    "name": "Matte Nardo Gray",
+    "hex": "#757575",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-scarlet-red",
+    "name": "Matte Scarlet Red",
+    "hex": "#DE4343",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-sakura-pink",
+    "name": "Matte Sakura Pink",
+    "hex": "#E8AFCF",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-dark-red",
+    "name": "Matte Dark Red",
+    "hex": "#BB3D43",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-terracotta",
+    "name": "Matte Terracotta",
+    "hex": "#B15533",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-plum",
+    "name": "Matte Plum",
+    "hex": "#950051",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-mandarin-orange",
+    "name": "Matte Mandarin Orange",
+    "hex": "#F99963",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-lemon-yellow",
+    "name": "Matte Lemon Yellow",
+    "hex": "#F7D959",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-desert-tan",
+    "name": "Matte Desert Tan",
+    "hex": "#E8DBB7",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-grass-green",
+    "name": "Matte Grass Green",
+    "hex": "#61C680",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-dark-green",
+    "name": "Matte Dark Green",
+    "hex": "#68724D",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-apple-green",
+    "name": "Matte Apple Green",
+    "hex": "#C2E189",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-marine-blue",
+    "name": "Matte Marine Blue",
+    "hex": "#0078BF",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-ice-blue",
+    "name": "Matte Ice Blue",
+    "hex": "#A3D8E1",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-dark-blue",
+    "name": "Matte Dark Blue",
+    "hex": "#042F56",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-sky-blue",
+    "name": "Matte Sky Blue",
+    "hex": "#56B7E6",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-lilac-purple",
+    "name": "Matte Lilac Purple",
+    "hex": "#AE96D4",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-latte-brown",
+    "name": "Matte Latte Brown",
+    "hex": "#D3B7A7",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-dark-brown",
+    "name": "Matte Dark Brown",
+    "hex": "#7D6556",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-dark-chocolate",
+    "name": "Matte Dark Chocolate",
+    "hex": "#4D3324",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "matte-pla-caramel",
+    "name": "Matte Caramel",
+    "hex": "#AE835B",
+    "series": "PLA Matte",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-matte"
+  },
+  {
+    "id": "silk-pla-white",
+    "name": "White",
+    "hex": "#FFFFFF",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-pla-silver",
+    "name": "Silver",
+    "hex": "#C8C8C8",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-pla-titan-gray",
+    "name": "Titan Gray",
+    "hex": "#5F6367",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-pla-candy-red",
+    "name": "Candy Red",
+    "hex": "#D02727",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-pla-rose-gold",
+    "name": "Rose Gold",
+    "hex": "#BA9594",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-pla-pink",
+    "name": "Pink",
+    "hex": "#F7ADA6",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-pla-champagne",
+    "name": "Champagne",
+    "hex": "#F3CFB2",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-pla-gold",
+    "name": "Gold",
+    "hex": "#F4A925",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-pla-candy-green",
+    "name": "Candy Green",
+    "hex": "#018814",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-pla-mint",
+    "name": "Mint",
+    "hex": "#96DCB9",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-pla-baby-blue",
+    "name": "Baby Blue",
+    "hex": "#A8C6EE",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-pla-blue",
+    "name": "Blue",
+    "hex": "#008BDA",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-pla-purple",
+    "name": "Purple",
+    "hex": "#8671CB",
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-upgrade",
+    "notes": "PLA Silk+"
+  },
+  {
+    "id": "silk-dual-pla-gilded-rose",
+    "name": "Gilded Rose",
+    "hex": "#FF9425",
+    "hexes": [
+      "#FF9425",
+      "#C16784"
+    ],
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-dual-color",
+    "notes": "Orange to rose pink dual-color silk"
+  },
+  {
+    "id": "silk-dual-pla-midnight-blaze",
+    "name": "Midnight Blaze",
+    "hex": "#0047BB",
+    "hexes": [
+      "#0047BB",
+      "#7D1B49"
+    ],
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-dual-color",
+    "notes": "Blue to burgundy dual-color silk"
+  },
+  {
+    "id": "silk-dual-pla-neon-city",
+    "name": "Neon City",
+    "hex": "#0047BB",
+    "hexes": [
+      "#0047BB",
+      "#BB22A3"
+    ],
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-dual-color",
+    "notes": "Blue to magenta dual-color silk"
+  },
+  {
+    "id": "silk-dual-pla-blue-hawaii",
+    "name": "Blue Hawaii",
+    "hex": "#418FDE",
+    "hexes": [
+      "#418FDE",
+      "#70C884"
+    ],
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-dual-color",
+    "notes": "Blue to green dual-color silk"
+  },
+  {
+    "id": "silk-dual-pla-velvet-eclipse",
+    "name": "Velvet Eclipse",
+    "hex": "#000000",
+    "hexes": [
+      "#000000",
+      "#A34342"
+    ],
+    "series": "PLA Silk",
+    "finish": "silk",
+    "url": "https://store.bambulab.com/products/pla-silk-dual-color",
+    "notes": "Black to dark red dual-color silk"
+  },
+  {
+    "id": "metal-pla-iron-gray-metallic",
+    "name": "Iron Gray Metallic",
+    "hex": "#43403D",
+    "series": "PLA Metal",
+    "finish": "metal",
+    "url": "https://store.bambulab.com/products/pla-metal"
+  },
+  {
+    "id": "metal-pla-cobalt-blue-metallic",
+    "name": "Cobalt Blue Metallic",
+    "hex": "#39699E",
+    "series": "PLA Metal",
+    "finish": "metal",
+    "url": "https://store.bambulab.com/products/pla-metal"
+  },
+  {
+    "id": "metal-pla-oxide-green-metallic",
+    "name": "Oxide Green Metallic",
+    "hex": "#1D7C6A",
+    "series": "PLA Metal",
+    "finish": "metal",
+    "url": "https://store.bambulab.com/products/pla-metal"
+  },
+  {
+    "id": "metal-pla-iridium-gold-metallic",
+    "name": "Iridium Gold Metallic",
+    "hex": "#B39B84",
+    "series": "PLA Metal",
+    "finish": "metal",
+    "url": "https://store.bambulab.com/products/pla-metal"
+  },
+  {
+    "id": "metal-pla-copper-brown-metallic",
+    "name": "Copper Brown Metallic",
+    "hex": "#AA6443",
+    "series": "PLA Metal",
+    "finish": "metal",
+    "url": "https://store.bambulab.com/products/pla-metal"
+  },
+  {
+    "id": "galaxy-pla-brown",
+    "name": "Brown",
+    "hex": "#684A43",
+    "series": "PLA Galaxy",
+    "finish": "galaxy",
+    "url": "https://store.bambulab.com/products/pla-galaxy",
+    "notes": "Galaxy sparkle effect with glitter particles"
+  },
+  {
+    "id": "galaxy-pla-green",
+    "name": "Green",
+    "hex": "#3B665E",
+    "series": "PLA Galaxy",
+    "finish": "galaxy",
+    "url": "https://store.bambulab.com/products/pla-galaxy",
+    "notes": "Galaxy sparkle effect with glitter particles"
+  },
+  {
+    "id": "galaxy-pla-nebulae",
+    "name": "Nebulae",
+    "hex": "#424379",
+    "series": "PLA Galaxy",
+    "finish": "galaxy",
+    "url": "https://store.bambulab.com/products/pla-galaxy",
+    "notes": "Galaxy sparkle effect with glitter particles"
+  },
+  {
+    "id": "galaxy-pla-purple",
+    "name": "Purple",
+    "hex": "#594177",
+    "series": "PLA Galaxy",
+    "finish": "galaxy",
+    "url": "https://store.bambulab.com/products/pla-galaxy",
+    "notes": "Galaxy sparkle effect with glitter particles"
+  },
+  {
+    "id": "sparkle-pla-onyx-black-sparkle",
+    "name": "Onyx Black Sparkle",
+    "hex": "#2D2B28",
+    "series": "PLA Sparkle",
+    "finish": "sparkle",
+    "url": "https://store.bambulab.com/products/pla-sparkle",
+    "notes": "Fine glitter sparkle effect"
+  },
+  {
+    "id": "sparkle-pla-slate-gray-sparkle",
+    "name": "Slate Gray Sparkle",
+    "hex": "#8E9089",
+    "series": "PLA Sparkle",
+    "finish": "sparkle",
+    "url": "https://store.bambulab.com/products/pla-sparkle",
+    "notes": "Fine glitter sparkle effect"
+  },
+  {
+    "id": "sparkle-pla-crimson-red-sparkle",
+    "name": "Crimson Red Sparkle",
+    "hex": "#792B36",
+    "series": "PLA Sparkle",
+    "finish": "sparkle",
+    "url": "https://store.bambulab.com/products/pla-sparkle",
+    "notes": "Fine glitter sparkle effect"
+  },
+  {
+    "id": "sparkle-pla-classic-gold-sparkle",
+    "name": "Classic Gold Sparkle",
+    "hex": "#CEA629",
+    "series": "PLA Sparkle",
+    "finish": "sparkle",
+    "url": "https://store.bambulab.com/products/pla-sparkle",
+    "notes": "Fine glitter sparkle effect"
+  },
+  {
+    "id": "sparkle-pla-alpine-green-sparkle",
+    "name": "Alpine Green Sparkle",
+    "hex": "#3F5443",
+    "series": "PLA Sparkle",
+    "finish": "sparkle",
+    "url": "https://store.bambulab.com/products/pla-sparkle",
+    "notes": "Fine glitter sparkle effect"
+  },
+  {
+    "id": "sparkle-pla-royal-purple-sparkle",
+    "name": "Royal Purple Sparkle",
+    "hex": "#483D8B",
+    "series": "PLA Sparkle",
+    "finish": "sparkle",
+    "url": "https://store.bambulab.com/products/pla-sparkle",
+    "notes": "Fine glitter sparkle effect"
+  },
+  {
+    "id": "marble-pla-white-marble",
+    "name": "White Marble",
+    "hex": "#F7F3F0",
+    "series": "PLA Marble",
+    "finish": "marble",
+    "url": "https://store.bambulab.com/products/pla-marble",
+    "notes": "White base with gray marble veining; hex approximate"
+  },
+  {
+    "id": "marble-pla-red-granite",
+    "name": "Red Granite",
+    "hex": "#AD4E38",
+    "series": "PLA Marble",
+    "finish": "marble",
+    "url": "https://store.bambulab.com/products/pla-marble",
+    "notes": "Red-brown granite texture; hex approximate"
+  },
+  {
+    "id": "wood-pla-white-oak",
+    "name": "White Oak",
+    "hex": "#D6CCA3",
+    "series": "PLA Wood",
+    "finish": "wood",
+    "url": "https://store.bambulab.com/products/pla-wood",
+    "notes": "Wood fiber composite; hex approximate"
+  },
+  {
+    "id": "wood-pla-classic-birch",
+    "name": "Classic Birch",
+    "hex": "#918669",
+    "series": "PLA Wood",
+    "finish": "wood",
+    "url": "https://store.bambulab.com/products/pla-wood",
+    "notes": "Wood fiber composite; hex approximate"
+  },
+  {
+    "id": "wood-pla-black-walnut",
+    "name": "Black Walnut",
+    "hex": "#4F3F24",
+    "series": "PLA Wood",
+    "finish": "wood",
+    "url": "https://store.bambulab.com/products/pla-wood",
+    "notes": "Wood fiber composite; hex approximate"
+  },
+  {
+    "id": "wood-pla-rosewood",
+    "name": "Rosewood",
+    "hex": "#4C241C",
+    "series": "PLA Wood",
+    "finish": "wood",
+    "url": "https://store.bambulab.com/products/pla-wood",
+    "notes": "Wood fiber composite; hex approximate"
+  },
+  {
+    "id": "wood-pla-clay-brown",
+    "name": "Clay Brown",
+    "hex": "#995F11",
+    "series": "PLA Wood",
+    "finish": "wood",
+    "url": "https://store.bambulab.com/products/pla-wood",
+    "notes": "Wood fiber composite; hex approximate"
+  },
+  {
+    "id": "wood-pla-ochre-yellow",
+    "name": "Ochre Yellow",
+    "hex": "#C98935",
+    "series": "PLA Wood",
+    "finish": "wood",
+    "url": "https://store.bambulab.com/products/pla-wood",
+    "notes": "Wood fiber composite; hex approximate"
+  },
+  {
+    "id": "glow-pla-glow-green",
+    "name": "Glow Green",
+    "hex": "#A1FFAC",
+    "series": "PLA Glow",
+    "finish": "glow",
+    "url": "https://store.bambulab.com/products/pla-glow",
+    "notes": "Glow-in-the-dark; hex shown is daylight color"
+  },
+  {
+    "id": "glow-pla-glow-blue",
+    "name": "Glow Blue",
+    "hex": "#7AC0E9",
+    "series": "PLA Glow",
+    "finish": "glow",
+    "url": "https://store.bambulab.com/products/pla-glow",
+    "notes": "Glow-in-the-dark; hex shown is daylight color"
+  },
+  {
+    "id": "glow-pla-glow-yellow",
+    "name": "Glow Yellow",
+    "hex": "#F8FF80",
+    "series": "PLA Glow",
+    "finish": "glow",
+    "url": "https://store.bambulab.com/products/pla-glow",
+    "notes": "Glow-in-the-dark; hex shown is daylight color"
+  },
+  {
+    "id": "glow-pla-glow-orange",
+    "name": "Glow Orange",
+    "hex": "#FF9D5B",
+    "series": "PLA Glow",
+    "finish": "glow",
+    "url": "https://store.bambulab.com/products/pla-glow",
+    "notes": "Glow-in-the-dark; hex shown is daylight color"
+  },
+  {
+    "id": "glow-pla-glow-pink",
+    "name": "Glow Pink",
+    "hex": "#F17B8F",
+    "series": "PLA Glow",
+    "finish": "glow",
+    "url": "https://store.bambulab.com/products/pla-glow",
+    "notes": "Glow-in-the-dark; hex shown is daylight color"
+  },
+  {
+    "id": "pla-basic-gradient-arctic-whisper",
+    "name": "Arctic Whisper",
+    "hex": "#9CDBD9",
+    "hexes": [
+      "#9CDBD9",
+      "#FFFFFF"
+    ],
+    "series": "PLA Basic Gradient",
+    "finish": "gradient",
+    "url": "https://store.bambulab.com/products/pla-basic-gradient",
+    "notes": "Teal to white gradient"
+  },
+  {
+    "id": "pla-basic-gradient-solar-breeze",
+    "name": "Solar Breeze",
+    "hex": "#E94B3C",
+    "hexes": [
+      "#E94B3C",
+      "#FFFFFF"
+    ],
+    "series": "PLA Basic Gradient",
+    "finish": "gradient",
+    "url": "https://store.bambulab.com/products/pla-basic-gradient",
+    "notes": "Red to white gradient"
+  },
+  {
+    "id": "pla-basic-gradient-ocean-to-meadow",
+    "name": "Ocean to Meadow",
+    "hex": "#307FE2",
+    "hexes": [
+      "#307FE2",
+      "#54FF9B"
+    ],
+    "series": "PLA Basic Gradient",
+    "finish": "gradient",
+    "url": "https://store.bambulab.com/products/pla-basic-gradient",
+    "notes": "Blue to lime green gradient"
+  },
+  {
+    "id": "pla-basic-gradient-pink-citrus",
+    "name": "Pink Citrus",
+    "hex": "#F78F77",
+    "hexes": [
+      "#F78F77",
+      "#E4505A"
+    ],
+    "series": "PLA Basic Gradient",
+    "finish": "gradient",
+    "url": "https://store.bambulab.com/products/pla-basic-gradient",
+    "notes": "Salmon to coral gradient"
+  },
+  {
+    "id": "pla-basic-gradient-mint-lime",
+    "name": "Mint Lime",
+    "hex": "#B6FF43",
+    "hexes": [
+      "#B6FF43",
+      "#4EC939"
+    ],
+    "series": "PLA Basic Gradient",
+    "finish": "gradient",
+    "url": "https://store.bambulab.com/products/pla-basic-gradient",
+    "notes": "Lime to green gradient"
+  },
+  {
+    "id": "pla-basic-gradient-blueberry-bubblegum",
+    "name": "Blueberry Bubblegum",
+    "hex": "#6FCAEF",
+    "hexes": [
+      "#6FCAEF",
+      "#8573DD"
+    ],
+    "series": "PLA Basic Gradient",
+    "finish": "gradient",
+    "url": "https://store.bambulab.com/products/pla-basic-gradient",
+    "notes": "Sky blue to violet gradient"
+  },
+  {
+    "id": "pla-basic-gradient-dusk-glare",
+    "name": "Dusk Glare",
+    "hex": "#CE4406",
+    "hexes": [
+      "#CE4406",
+      "#ED9558"
+    ],
+    "series": "PLA Basic Gradient",
+    "finish": "gradient",
+    "url": "https://store.bambulab.com/products/pla-basic-gradient",
+    "notes": "Dark orange to peach gradient"
+  },
+  {
+    "id": "pla-basic-gradient-cotton-candy-cloud",
+    "name": "Cotton Candy Cloud",
+    "hex": "#E7C1D5",
+    "hexes": [
+      "#E7C1D5",
+      "#8EC9E9"
+    ],
+    "series": "PLA Basic Gradient",
+    "finish": "gradient",
+    "url": "https://store.bambulab.com/products/pla-basic-gradient",
+    "notes": "Pink to sky blue gradient"
+  },
+  {
+    "id": "pla-translucent-ice-blue",
+    "name": "Ice Blue",
+    "hex": "#B8CDE9",
+    "series": "PLA Translucent",
+    "finish": "gloss",
+    "url": "https://store.bambulab.com/products/pla-translucent",
+    "notes": "Semi-translucent finish"
+  },
+  {
+    "id": "pla-translucent-blue",
+    "name": "Blue",
+    "hex": "#0047BB",
+    "series": "PLA Translucent",
+    "finish": "gloss",
+    "url": "https://store.bambulab.com/products/pla-translucent",
+    "notes": "Semi-translucent finish"
+  },
+  {
+    "id": "pla-translucent-teal",
+    "name": "Teal",
+    "hex": "#009FA1",
+    "series": "PLA Translucent",
+    "finish": "gloss",
+    "url": "https://store.bambulab.com/products/pla-translucent",
+    "notes": "Semi-translucent finish"
+  },
+  {
+    "id": "pla-translucent-cherry-pink",
+    "name": "Cherry Pink",
+    "hex": "#F5B6CD",
+    "series": "PLA Translucent",
+    "finish": "gloss",
+    "url": "https://store.bambulab.com/products/pla-translucent",
+    "notes": "Semi-translucent finish"
+  },
+  {
+    "id": "pla-translucent-red",
+    "name": "Red",
+    "hex": "#B50011",
+    "series": "PLA Translucent",
+    "finish": "gloss",
+    "url": "https://store.bambulab.com/products/pla-translucent",
+    "notes": "Semi-translucent finish"
+  },
+  {
+    "id": "pla-translucent-orange",
+    "name": "Orange",
+    "hex": "#F74E02",
+    "series": "PLA Translucent",
+    "finish": "gloss",
+    "url": "https://store.bambulab.com/products/pla-translucent",
+    "notes": "Semi-translucent finish"
+  },
+  {
+    "id": "pla-translucent-mellow-yellow",
+    "name": "Mellow Yellow",
+    "hex": "#F5DBAB",
+    "series": "PLA Translucent",
+    "finish": "gloss",
+    "url": "https://store.bambulab.com/products/pla-translucent",
+    "notes": "Semi-translucent finish"
+  },
+  {
+    "id": "pla-translucent-light-jade",
+    "name": "Light Jade",
+    "hex": "#96D8AF",
+    "series": "PLA Translucent",
+    "finish": "gloss",
+    "url": "https://store.bambulab.com/products/pla-translucent",
+    "notes": "Semi-translucent finish"
+  },
+  {
+    "id": "pla-translucent-lavender",
+    "name": "Lavender",
+    "hex": "#B8ACD6",
+    "series": "PLA Translucent",
+    "finish": "gloss",
+    "url": "https://store.bambulab.com/products/pla-translucent",
+    "notes": "Semi-translucent finish"
+  },
+  {
+    "id": "pla-translucent-purple",
+    "name": "Purple",
+    "hex": "#8344B0",
+    "series": "PLA Translucent",
+    "finish": "gloss",
+    "url": "https://store.bambulab.com/products/pla-translucent",
+    "notes": "Semi-translucent finish"
+  },
+  {
+    "id": "pla-cf-black",
+    "name": "Black",
+    "hex": "#000000",
+    "series": "PLA CF",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-cf",
+    "notes": "Carbon fiber reinforced PLA"
+  },
+  {
+    "id": "pla-cf-lava-gray",
+    "name": "Lava Gray",
+    "hex": "#4D5054",
+    "series": "PLA CF",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-cf",
+    "notes": "Carbon fiber reinforced PLA"
+  },
+  {
+    "id": "pla-cf-burgundy-red",
+    "name": "Burgundy Red",
+    "hex": "#951E23",
+    "series": "PLA CF",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-cf",
+    "notes": "Carbon fiber reinforced PLA"
+  },
+  {
+    "id": "pla-cf-matcha-green",
+    "name": "Matcha Green",
+    "hex": "#5C9748",
+    "series": "PLA CF",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-cf",
+    "notes": "Carbon fiber reinforced PLA"
+  },
+  {
+    "id": "pla-cf-jeans-blue",
+    "name": "Jeans Blue",
+    "hex": "#6E88BC",
+    "series": "PLA CF",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-cf",
+    "notes": "Carbon fiber reinforced PLA"
+  },
+  {
+    "id": "pla-cf-royal-blue",
+    "name": "Royal Blue",
+    "hex": "#2842AD",
+    "series": "PLA CF",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-cf",
+    "notes": "Carbon fiber reinforced PLA"
+  },
+  {
+    "id": "pla-cf-iris-purple",
+    "name": "Iris Purple",
+    "hex": "#69398E",
+    "series": "PLA CF",
+    "finish": "matte",
+    "url": "https://store.bambulab.com/products/pla-cf",
+    "notes": "Carbon fiber reinforced PLA"
+  }
+]

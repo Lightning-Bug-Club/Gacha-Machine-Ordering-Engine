@@ -200,6 +200,7 @@ async function init() {
         previewDataURLs,
         selections: getState().selections,
         windowsMaterial: getState().windowsMaterial,
+        includeBalls: getState().includeBalls,
         parts: getParts(),
         colors: getColors(),
         filamentUsage: _filamentUsage,
@@ -348,15 +349,22 @@ function _wireCostPanel(parts) {
 
   // Update cost panel whenever state changes
   subscribe(snap => {
+    ballsCheckbox.checked = snap.includeBalls;
     _updateCostPanel(snap, parts);
   });
 
   // Initial cost update
-  _updateCostPanel(getState(), parts);
+  const state = getState();
+  ballsCheckbox.checked = state.includeBalls;
+  _updateCostPanel(state, parts);
 }
 
 function _updateCostPanel(state, parts) {
-  const estimate = calculateBuildCost(state.selections, _filamentUsage, parts, state.includeBalls);
+  const selections = { ...state.selections };
+  if (state.windowsMaterial === 'acrylic') {
+    delete selections.window;
+  }
+  const estimate = calculateBuildCost(selections, _filamentUsage, parts, state.includeBalls);
 
   // Update cost displays
   document.getElementById('cost-filament').textContent = formatCost(estimate.filament.totalCost);
@@ -387,7 +395,7 @@ function _updateCostPanel(state, parts) {
 
       const amount = document.createElement('span');
       amount.className = 'cost-detail-amount';
-      amount.textContent = `${data.grams}g → ${data.kgRounded}kg × $${estimate.filament.totalCost / estimate.filament.totalKg}`;
+      amount.textContent = `${data.grams}g → ${data.kgRounded}kg (${formatCost(data.cost)})`;
 
       row.appendChild(name);
       row.appendChild(amount);
@@ -551,6 +559,7 @@ function _wireSavedBuilds() {
       loadBtn.addEventListener('click', () => {
         setWindowsMaterial(build.windowsMaterial === 'acrylic' ? 'acrylic' : 'printed');
         loadSelections(build.selections || {});
+        setIncludeBalls(build.includeBalls === true);
         setSelectedPart(null);
         _showToast(`Loaded build: ${build.name}`);
       });
