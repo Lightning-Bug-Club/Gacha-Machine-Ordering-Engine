@@ -392,8 +392,8 @@ function _updateCostPanel(state, parts) {
       colorIds.forEach(colorId => {
         const color = colorMap[colorId];
         if (!color) return;
-        const bittyData = estimate.bitty.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0 };
-        const biggyData = estimate.biggy.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0 };
+        const bittyData = estimate.bitty.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
+        const biggyData = estimate.biggy.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
 
         const row = document.createElement('div');
         row.className = 'cost-detail-row';
@@ -404,7 +404,8 @@ function _updateCostPanel(state, parts) {
 
         const amount = document.createElement('span');
         amount.className = 'cost-detail-amount';
-        amount.textContent = `Bitty ${bittyData.grams}g (${bittyData.kgRounded}kg) · Biggy ${biggyData.grams}g (${biggyData.kgRounded}kg)`;
+        amount.textContent = `Bitty ${bittyData.grams}g (${bittyData.kgRounded}kg, ${formatCost(bittyData.cost)}) · `
+          + `Biggy ${biggyData.grams}g (${biggyData.kgRounded}kg, ${formatCost(biggyData.cost)})`;
 
         row.appendChild(name);
         row.appendChild(amount);

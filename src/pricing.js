@@ -140,21 +140,16 @@ export function formatCost(value) {
 }
 
 /**
- * Get the cost estimate summary as a human-readable string.
- * Accepts either a single-size estimate (with `filament`/`machineTime`/etc.)
- * or a combined estimate (with `bitty`/`biggy` sub-estimates), in which case
- * both sizes are summarized.
+ * Get the cost estimate summary as a human-readable string, summarizing
+ * both the Bitty and Biggy sub-estimates returned by calculateBuildCost.
  */
 export function getCostSummary(estimate) {
-  if (estimate.bitty && estimate.biggy) {
-    const lines = [];
-    lines.push('Bitty:');
-    lines.push(_formatSizeSummary(estimate.bitty).map(l => `  ${l}`).join('\n'));
-    lines.push('Biggy:');
-    lines.push(_formatSizeSummary(estimate.biggy).map(l => `  ${l}`).join('\n'));
-    return lines.join('\n');
-  }
-  return _formatSizeSummary(estimate).join('\n');
+  const lines = [];
+  lines.push('Bitty:');
+  lines.push(_formatSizeSummary(estimate.bitty).map(l => `  ${l}`).join('\n'));
+  lines.push('Biggy:');
+  lines.push(_formatSizeSummary(estimate.biggy).map(l => `  ${l}`).join('\n'));
+  return lines.join('\n');
 }
 
 function _formatSizeSummary(estimate) {
