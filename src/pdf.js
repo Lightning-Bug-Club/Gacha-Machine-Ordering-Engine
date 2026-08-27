@@ -246,7 +246,7 @@ export async function exportPDF({
       rows.push([`Clear Plastic Balls (${estimate.balls.quantity})`, formatCost(estimate.balls.cost)]);
     }
 
-    ensureSpace(10 + rows.length * rowH + rowH + 4);
+    ensureSpace(6 + rows.length * rowH + rowH + 10);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(11);
     doc.setTextColor(0);
@@ -278,7 +278,6 @@ export async function exportPDF({
     doc.setTextColor(0);
     yPos += rowH;
 
-    ensureSpace(6);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(90);
