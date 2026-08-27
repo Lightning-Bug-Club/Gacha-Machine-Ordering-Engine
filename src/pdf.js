@@ -2,6 +2,8 @@
  * pdf.js — PDF blueprint export.
  */
 
+import { calculateBuildCost, formatCost } from './pricing.js';
+
 export async function exportPDF({
   previewDataURLs = null,
   previewDataURL = null,
@@ -10,6 +12,7 @@ export async function exportPDF({
   parts,
   colors,
   filamentUsage = {},
+  includeBalls = false,
 }) {
   const jsPDF = window.jspdf?.jsPDF;
   if (!jsPDF) {
@@ -87,11 +90,14 @@ export async function exportPDF({
     doc.text('Bambu Color', columns.color.x + 1, fullHeaderMidY);
     doc.text('Hex', columns.hex.x + 1, fullHeaderMidY);
 
-    // "Filament Usage" spans Bitty+Biggy columns in the TOP sub-row only
+    // "Filament Usage" spans Bitty+Biggy columns in the TOP sub-row only.
+    // The cell is merged both horizontally (Bitty+Biggy) and vertically
+    // (no divider crosses the label), so nudge the text up slightly to sit
+    // comfortably within the merged top sub-row.
     doc.text(
       'Filament Usage',
       columns.bitty.x + (columns.bitty.width + columns.biggy.width) / 2,
-      topY + TABLE_HEADER_TOP_H / 2 + 3,
+      topY + TABLE_HEADER_TOP_H / 2 + 2.4,
       { align: 'center' }
     );
 
@@ -101,25 +107,26 @@ export async function exportPDF({
     doc.line(columns.bitty.x, topY + TABLE_HEADER_TOP_H, MARGIN + CONTENT_W, topY + TABLE_HEADER_TOP_H);
 
     // Sub-labels "Bitty" and "Biggy" in the BOTTOM sub-row
-    doc.text('Bitty', columns.bitty.x + columns.bitty.width / 2, topY + TABLE_HEADER_TOP_H + TABLE_HEADER_SUB_H / 2 + 3, { align: 'center' });
-    doc.text('Biggy', columns.biggy.x + columns.biggy.width / 2, topY + TABLE_HEADER_TOP_H + TABLE_HEADER_SUB_H / 2 + 3, { align: 'center' });
+    doc.text('Bitty', columns.bitty.x + columns.bitty.width / 2, topY + TABLE_HEADER_TOP_H + TABLE_HEADER_SUB_H / 2 + 2.4, { align: 'center' });
+    doc.text('Biggy', columns.biggy.x + columns.biggy.width / 2, topY + TABLE_HEADER_TOP_H + TABLE_HEADER_SUB_H / 2 + 2.4, { align: 'center' });
 
     // Outer border around the full header
     doc.setDrawColor(210);
     doc.rect(MARGIN, topY, CONTENT_W, TABLE_HEADER_H, 'S');
 
-    // Vertical column dividers (spanning full header height)
+    // Vertical column dividers that span the FULL header height (these do not
+    // pass through the merged "Filament Usage" cell).
     [
       columns.part.x,
       columns.color.x,
       columns.hex.x,
       columns.bitty.x,
-      columns.biggy.x,
       MARGIN + CONTENT_W,
     ].forEach(x => doc.line(x, topY, x, topY + TABLE_HEADER_H));
 
-    // Vertical divider between Bitty and Biggy only in the bottom sub-row
-    // (already drawn above as part of column dividers — this is intentional)
+    // Vertical divider between Bitty and Biggy ONLY in the bottom sub-row, so
+    // it does not cut through the merged "Filament Usage" label above it.
+    doc.line(columns.biggy.x, topY + TABLE_HEADER_TOP_H, columns.biggy.x, topY + TABLE_HEADER_H);
 
     doc.setTextColor(0);
     doc.setFont('helvetica', 'normal');
@@ -205,6 +212,15 @@ export async function exportPDF({
     filamentUsage,
   });
 
+  const costEstimate = calculateBuildCost(selections, filamentUsage, parts, includeBalls);
+  yPos = _drawCostEstimate(doc, {
+    yPos: yPos + 7,
+    margin: MARGIN,
+    pageHeight: PAGE_H,
+    contentWidth: CONTENT_W,
+    estimate: costEstimate,
+  });
+
   const pageCount = doc.getNumberOfPages();
   for (let pageIndex = 1; pageIndex <= pageCount; pageIndex += 1) {
     doc.setPage(pageIndex);
@@ -212,6 +228,62 @@ export async function exportPDF({
     doc.setTextColor(150);
     doc.text('Lightning Bug Club — lightningbugclub.com', MARGIN, 290);
     doc.text(`Page ${pageIndex} of ${pageCount}`, PAGE_W - MARGIN, 290, { align: 'right' });
+  }
+
+  function _drawCostEstimate(doc, { yPos, margin, pageHeight, contentWidth, estimate }) {
+    const ensureSpace = required => {
+      if (yPos + required <= pageHeight - 20) return;
+      doc.addPage();
+      yPos = margin;
+    };
+
+    const rowH = 6.5;
+    const rows = [
+      [`Filament (${estimate.filament.totalKg} kg)`, formatCost(estimate.filament.totalCost)],
+      ['Machine Time', formatCost(estimate.machineTime)],
+    ];
+    if (estimate.ballsAdded) {
+      rows.push([`Clear Plastic Balls (${estimate.balls.quantity})`, formatCost(estimate.balls.cost)]);
+    }
+
+    ensureSpace(6 + rows.length * rowH + rowH + 10);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.setTextColor(0);
+    doc.text('Cost Estimate', margin, yPos);
+    yPos += 6;
+
+    doc.setDrawColor(215);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    rows.forEach((row, index) => {
+      if (index % 2 === 0) {
+        doc.setFillColor(245, 245, 245);
+        doc.rect(margin, yPos, contentWidth, rowH, 'F');
+      }
+      doc.rect(margin, yPos, contentWidth, rowH, 'S');
+      doc.text(row[0], margin + 2, yPos + rowH / 2 + 1.5);
+      doc.text(row[1], margin + contentWidth - 2, yPos + rowH / 2 + 1.5, { align: 'right' });
+      yPos += rowH;
+    });
+
+    doc.setFillColor(50, 50, 50);
+    doc.rect(margin, yPos, contentWidth, rowH, 'F');
+    doc.setDrawColor(215);
+    doc.rect(margin, yPos, contentWidth, rowH, 'S');
+    doc.setTextColor(255);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Total Estimated Cost', margin + 2, yPos + rowH / 2 + 1.5);
+    doc.text(formatCost(estimate.total), margin + contentWidth - 2, yPos + rowH / 2 + 1.5, { align: 'right' });
+    doc.setTextColor(0);
+    yPos += rowH;
+
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7.5);
+    doc.setTextColor(90);
+    doc.text('Cost estimate is approximate and based on filament usage, machine time, and selected add-ons.', margin, yPos + 4);
+    doc.setTextColor(0);
+    return yPos + 7;
   }
 
   function _drawFilamentByColorSummary(doc, {

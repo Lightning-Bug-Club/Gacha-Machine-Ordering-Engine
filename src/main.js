@@ -203,6 +203,7 @@ async function init() {
         parts: getParts(),
         colors: getColors(),
         filamentUsage: _filamentUsage,
+        includeBalls: getState().includeBalls,
       });
       _showToast('PDF exported with Front, Side, and Back previews.');
     } catch (err) {
