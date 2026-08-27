@@ -1,0 +1,18 @@
+[
+  { "id": "lid",                    "label": "Lid",                    "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-lid"] },
+  { "id": "top-chamber",            "label": "Top Chamber",            "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-top-chamber"] },
+  { "id": "hole-blocker",           "label": "Hole Blocker",           "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-hole-blocker"] },
+  { "id": "mid-plate",              "label": "Mid-Plate",              "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-mid-plate"] },
+  { "id": "main-gear",              "label": "Main Gear",              "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-main-gear"] },
+  { "id": "coin-mech-back-plate",   "label": "Coin Mech. Back Plate",  "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-coin-mech-back-plate"] },
+  { "id": "coin-mech-front-plate",  "label": "Coin Mech. Front Plate", "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-coin-mech-front-plate"] },
+  { "id": "coin",                   "label": "Coin",                   "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-coin"] },
+  { "id": "knob",                   "label": "Knob",                   "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-knob"] },
+  { "id": "coin-mech-gear",         "label": "Coin Mech Gear",         "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-coin-mech-gear"] },
+  { "id": "bottom-plate-mouth",     "label": "Bottom Plate / Mouth",   "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-bottom-plate", "part-mouth"] },
+  { "id": "rear-lock-knob",         "label": "Rear Lock Knob",         "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-rear-lock-knob"] },
+  { "id": "lid-lock",               "label": "Lid Lock",               "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-lid-lock"] },
+  { "id": "window",                 "label": "Window",                 "qty": 2, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-window"] },
+  { "id": "back-cover",             "label": "Back Cover",             "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-back-cover"] },
+  { "id": "bottom-chamber",         "label": "Bottom Chamber",         "qty": 1, "defaultColorId": "basic-pla-jade-white",   "svgIds": ["part-bottom-chamber"] }
+]
