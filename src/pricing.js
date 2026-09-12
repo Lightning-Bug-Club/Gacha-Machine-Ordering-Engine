@@ -5,12 +5,14 @@
  * - Filament: $25 per 1kg spool (rounded up per color)
  * - Machine time: $20 flat fee
  * - Optional add-on: 50 clear plastic balls for $25
+ * - Windows: $15 flat fee for acrylic windows (3D printed windows included in filament)
  */
 
 const FILAMENT_COST_PER_KG = 25;
 const MACHINE_TIME_COST = 20;
 const BALLS_ADDON_COST = 25;
 const BALLS_ADDON_QUANTITY = 50;
+const ACRYLIC_WINDOWS_COST = 15;
 
 /**
  * Calculate total filament grams needed by color, for a given machine size.
@@ -79,20 +81,25 @@ export function calculateFilamentCost(selections, filamentUsage, parts, size = '
 }
 
 /**
- * Build a single-size cost estimate: { filament, machineTime, balls, ballsAdded, subtotal, total }
+ * Build a single-size cost estimate: { filament, machineTime, windows, balls, ballsAdded, subtotal, total }
  */
-function _buildEstimate(selections, filamentUsage, parts, includeBalls, size) {
+function _buildEstimate(selections, filamentUsage, parts, includeBalls, windowsMaterial, size) {
   const filament = calculateFilamentCost(selections, filamentUsage, parts, size);
 
   const balls = includeBalls
     ? { cost: BALLS_ADDON_COST, quantity: BALLS_ADDON_QUANTITY }
     : { cost: 0, quantity: 0 };
 
-  const subtotal = filament.totalCost + MACHINE_TIME_COST + balls.cost;
+  const windows = windowsMaterial === 'acrylic'
+    ? { cost: ACRYLIC_WINDOWS_COST }
+    : { cost: 0 };
+
+  const subtotal = filament.totalCost + MACHINE_TIME_COST + windows.cost + balls.cost;
 
   return {
     filament,
     machineTime: MACHINE_TIME_COST,
+    windows,
     balls,
     ballsAdded: includeBalls,
     subtotal,
@@ -108,15 +115,15 @@ function _buildEstimate(selections, filamentUsage, parts, includeBalls, size) {
  * placeholder colors that were never chosen by the user are excluded.
  *
  * Returns: {
- *   bitty: { filament, machineTime, balls, ballsAdded, subtotal, total },
- *   biggy: { filament, machineTime, balls, ballsAdded, subtotal, total },
+ *   bitty: { filament, machineTime, windows, balls, ballsAdded, subtotal, total },
+ *   biggy: { filament, machineTime, windows, balls, ballsAdded, subtotal, total },
  *   // Backward-compatible fields mirroring the Bitty estimate:
- *   filament, machineTime, balls, ballsAdded, subtotal, total
+ *   filament, machineTime, windows, balls, ballsAdded, subtotal, total
  * }
  */
-export function calculateBuildCost(selections, filamentUsage, parts, includeBalls = false) {
-  const bitty = _buildEstimate(selections, filamentUsage, parts, includeBalls, 'bitty');
-  const biggy = _buildEstimate(selections, filamentUsage, parts, includeBalls, 'biggy');
+export function calculateBuildCost(selections, filamentUsage, parts, includeBalls = false, windowsMaterial = 'printed') {
+  const bitty = _buildEstimate(selections, filamentUsage, parts, includeBalls, windowsMaterial, 'bitty');
+  const biggy = _buildEstimate(selections, filamentUsage, parts, includeBalls, windowsMaterial, 'biggy');
 
   return {
     bitty,
@@ -156,6 +163,9 @@ function _formatSizeSummary(estimate) {
   const lines = [];
   lines.push(`Filament: ${formatCost(estimate.filament.totalCost)} (${estimate.filament.totalKg} kg)`);
   lines.push(`Machine Time: ${formatCost(estimate.machineTime)}`);
+  if (estimate.windows.cost > 0) {
+    lines.push(`Acrylic Windows: ${formatCost(estimate.windows.cost)}`);
+  }
   if (estimate.ballsAdded) {
     lines.push(`Clear Plastic Balls (50): ${formatCost(estimate.balls.cost)}`);
   }
