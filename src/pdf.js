@@ -251,7 +251,7 @@ export async function exportPDF({
     
     if (bitty.windows.cost > 0) {
       rows.push([
-        'Windows (Acrylic)',
+        'Acrylic Windows',
         formatCost(bitty.windows.cost),
         formatCost(biggy.windows.cost),
       ]);
@@ -347,10 +347,13 @@ export async function exportPDF({
 
     const totals = new Map();
     parts.forEach(part => {
+      // Skip acrylic windows — they have no filament
       if (part.id === 'window' && windowsMaterial === 'acrylic') return;
+      
       const colorId = selections[part.id] || part.defaultColorId;
       const color = colorMap[colorId];
       if (!color) return;
+      
       const usage = filamentUsage[part.id] || {};
       const current = totals.get(color.id) || { color, bitty: 0, biggy: 0 };
       current.bitty += typeof usage.bitty === 'number' ? usage.bitty : 0;
