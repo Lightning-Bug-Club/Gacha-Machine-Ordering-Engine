@@ -3,13 +3,14 @@
  *
  * Cost breakdown:
  * - Filament: $25 per 1kg spool (rounded up per color)
- * - Machine time: $20 flat fee
+ * - Machine time: $10 for Bitty, $15 for Biggy
  * - Optional add-on: 50 clear plastic balls for $25
  * - Windows: $15 flat fee for acrylic windows (3D printed windows included in filament)
  */
 
 const FILAMENT_COST_PER_KG = 25;
-const MACHINE_TIME_COST = 20;
+const MACHINE_TIME_COST_BITTY = 10;
+const MACHINE_TIME_COST_BIGGY = 15;
 const BALLS_ADDON_COST = 25;
 const BALLS_ADDON_QUANTITY = 50;
 const ACRYLIC_WINDOWS_COST = 15;
@@ -81,10 +82,18 @@ export function calculateFilamentCost(selections, filamentUsage, parts, size = '
 }
 
 /**
+ * Get machine time cost for a given size.
+ */
+function _getMachineTimeCost(size) {
+  return size === 'biggy' ? MACHINE_TIME_COST_BIGGY : MACHINE_TIME_COST_BITTY;
+}
+
+/**
  * Build a single-size cost estimate: { filament, machineTime, windows, balls, ballsAdded, subtotal, total }
  */
 function _buildEstimate(selections, filamentUsage, parts, includeBalls, windowsMaterial, size) {
   const filament = calculateFilamentCost(selections, filamentUsage, parts, size);
+  const machineTimeCost = _getMachineTimeCost(size);
 
   const balls = includeBalls
     ? { cost: BALLS_ADDON_COST, quantity: BALLS_ADDON_QUANTITY }
@@ -94,11 +103,11 @@ function _buildEstimate(selections, filamentUsage, parts, includeBalls, windowsM
     ? { cost: ACRYLIC_WINDOWS_COST }
     : { cost: 0 };
 
-  const subtotal = filament.totalCost + MACHINE_TIME_COST + windows.cost + balls.cost;
+  const subtotal = filament.totalCost + machineTimeCost + windows.cost + balls.cost;
 
   return {
     filament,
-    machineTime: MACHINE_TIME_COST,
+    machineTime: machineTimeCost,
     windows,
     balls,
     ballsAdded: includeBalls,
