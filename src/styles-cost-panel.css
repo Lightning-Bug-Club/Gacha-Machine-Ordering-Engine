@@ -136,6 +136,53 @@
   overflow-y: auto;
 }
 
+.filament-detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  background: #ffffff;
+  border: 1px solid #808080;
+}
+
+.filament-detail-table thead {
+  background: #dfdfdf;
+}
+
+.filament-detail-table th {
+  padding: 4px 6px;
+  text-align: left;
+  font-weight: 700;
+  color: #000000;
+  border-bottom: 1px solid #808080;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.filament-detail-table td {
+  padding: 3px 6px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333333;
+}
+
+.filament-detail-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.filament-detail-color {
+  font-weight: 600;
+  color: #000080;
+  min-width: 80px;
+}
+
+.filament-detail-amount {
+  text-align: right;
+  font-family: 'Courier New', monospace;
+  color: #333333;
+  font-size: 0.75rem;
+  min-width: 120px;
+}
+
 .cost-detail-row {
   display: flex;
   justify-content: space-between;
