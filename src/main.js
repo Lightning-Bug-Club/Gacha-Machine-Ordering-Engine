@@ -367,16 +367,31 @@ function _updateCostPanel(state, parts) {
   if (!detailEl) return;
 
   detailEl.innerHTML = '';
-  const colorIds = new Set([
-    ...Object.keys(estimate.bitty.filament.colorBreakdown),
-    ...Object.keys(estimate.biggy.filament.colorBreakdown),
-  ]);
-
-  if (colorIds.size === 0) return;
-
+  const bittyBreakdown = estimate.bitty.filament.colorBreakdown || {};
+  const biggyBreakdown = estimate.biggy.filament.colorBreakdown || {};
+  const rows = [];
   const colors = getColors();
   const colorMap = {};
   colors.forEach(c => { colorMap[c.id] = c; });
+
+  Object.keys(explicitSelections).forEach(partId => {
+    if (partId === 'window' && state.windowsMaterial === 'acrylic') return;
+    const colorId = explicitSelections[partId];
+    if (!colorId || rows.some(row => row.colorId === colorId)) return;
+
+    const color = colorMap[colorId];
+    if (!color) return;
+
+    const bittyData = bittyBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
+    const biggyData = biggyBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
+    if (bittyData.grams <= 0 && biggyData.grams <= 0) return;
+
+    rows.push({ colorId, color, bittyData, biggyData });
+  });
+
+  if (!rows.length) return;
+
+  rows.sort((a, b) => a.color.name.localeCompare(b.color.name));
 
   const table = document.createElement('table');
   table.className = 'filament-detail-table';
@@ -392,42 +407,26 @@ function _updateCostPanel(state, parts) {
   table.appendChild(thead);
 
   const tbody = document.createElement('tbody');
-  Array.from(colorIds)
-    .sort((a, b) => {
-      const aColor = colorMap[a]?.name || a;
-      const bColor = colorMap[b]?.name || b;
-      return aColor.localeCompare(bColor);
-    })
-    .forEach(colorId => {
-      const color = colorMap[colorId];
-      if (!color) return;
+  rows.forEach(({ color, bittyData, biggyData }) => {
+    const row = document.createElement('tr');
 
-      const bittyData = estimate.bitty.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
-      const biggyData = estimate.biggy.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
+    const nameCell = document.createElement('td');
+    nameCell.className = 'filament-detail-color';
+    nameCell.textContent = color.name;
+    row.appendChild(nameCell);
 
-      if (bittyData.grams <= 0 && biggyData.grams <= 0) return;
+    const bittyCell = document.createElement('td');
+    bittyCell.className = 'filament-detail-amount';
+    bittyCell.textContent = `${bittyData.grams}g (${bittyData.kgRounded}kg, ${formatCost(bittyData.cost)})`;
+    row.appendChild(bittyCell);
 
-      const row = document.createElement('tr');
+    const biggyCell = document.createElement('td');
+    biggyCell.className = 'filament-detail-amount';
+    biggyCell.textContent = `${biggyData.grams}g (${biggyData.kgRounded}kg, ${formatCost(biggyData.cost)})`;
+    row.appendChild(biggyCell);
 
-      const nameCell = document.createElement('td');
-      nameCell.className = 'filament-detail-color';
-      nameCell.textContent = color.name;
-      row.appendChild(nameCell);
-
-      const bittyCell = document.createElement('td');
-      bittyCell.className = 'filament-detail-amount';
-      bittyCell.textContent = `${bittyData.grams}g (${bittyData.kgRounded}kg, ${formatCost(bittyData.cost)})`;
-      row.appendChild(bittyCell);
-
-      const biggyCell = document.createElement('td');
-      biggyCell.className = 'filament-detail-amount';
-      biggyCell.textContent = `${biggyData.grams}g (${biggyData.kgRounded}kg, ${formatCost(biggyData.cost)})`;
-      row.appendChild(biggyCell);
-
-      tbody.appendChild(row);
-    });
-
-  if (!tbody.children.length) return;
+    tbody.appendChild(row);
+  });
 
   table.appendChild(tbody);
   detailEl.appendChild(table);
