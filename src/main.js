@@ -362,20 +362,23 @@ function _wireCostPanel(parts) {
 
 function _updateCostPanel(state, parts) {
   const explicitSelections = getExplicitSelections();
-  const estimate = calculateBuildCost(explicitSelections, _filamentUsage, parts, state.includeBalls);
+  const estimate = calculateBuildCost(explicitSelections, _filamentUsage, parts, state.includeBalls, state.windowsMaterial);
 
   // Update cost displays — Bitty and Biggy filament costs differ, everything
-  // else (machine time, balls add-on) is shared across both sizes.
+  // else (machine time, windows, balls add-on) is shared across both sizes.
   document.getElementById('cost-filament-bitty').textContent = formatCost(estimate.bitty.filament.totalCost);
   document.getElementById('cost-filament-biggy').textContent = formatCost(estimate.biggy.filament.totalCost);
   document.getElementById('cost-machine').textContent = formatCost(estimate.bitty.machineTime);
+  document.getElementById('cost-windows').textContent = estimate.bitty.windows.cost > 0
+    ? formatCost(estimate.bitty.windows.cost)
+    : '—';
   document.getElementById('cost-balls').textContent = state.includeBalls
     ? formatCost(estimate.bitty.balls.cost)
     : '—';
   document.getElementById('cost-total-bitty').textContent = formatCost(estimate.bitty.total);
   document.getElementById('cost-total-biggy').textContent = formatCost(estimate.biggy.total);
 
-  // Update filament breakdown detail (grams/cost per color, Bitty vs Biggy)
+  // Update filament breakdown detail (color name + grams/cost per color, Bitty vs Biggy)
   const detailEl = document.getElementById('filament-detail');
   if (detailEl) {
     detailEl.innerHTML = '';
@@ -389,28 +392,54 @@ function _updateCostPanel(state, parts) {
       const colorMap = {};
       colors.forEach(c => { colorMap[c.id] = c; });
 
+      // Create table structure
+      const table = document.createElement('table');
+      table.className = 'filament-detail-table';
+
+      // Table header
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      const headerColor = document.createElement('th');
+      headerColor.textContent = 'Color';
+      const headerBitty = document.createElement('th');
+      headerBitty.textContent = 'Bitty';
+      const headerBiggy = document.createElement('th');
+      headerBiggy.textContent = 'Biggy';
+      headerRow.appendChild(headerColor);
+      headerRow.appendChild(headerBitty);
+      headerRow.appendChild(headerBiggy);
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      // Table body
+      const tbody = document.createElement('tbody');
       colorIds.forEach(colorId => {
         const color = colorMap[colorId];
         if (!color) return;
         const bittyData = estimate.bitty.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
         const biggyData = estimate.biggy.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
 
-        const row = document.createElement('div');
-        row.className = 'cost-detail-row';
+        const row = document.createElement('tr');
 
-        const name = document.createElement('span');
-        name.className = 'cost-detail-color';
-        name.textContent = `${color.name}:`;
+        const nameCell = document.createElement('td');
+        nameCell.className = 'filament-detail-color';
+        nameCell.textContent = color.name;
+        row.appendChild(nameCell);
 
-        const amount = document.createElement('span');
-        amount.className = 'cost-detail-amount';
-        amount.textContent = `Bitty ${bittyData.grams}g (${bittyData.kgRounded}kg, ${formatCost(bittyData.cost)}) · `
-          + `Biggy ${biggyData.grams}g (${biggyData.kgRounded}kg, ${formatCost(biggyData.cost)})`;
+        const bittyCell = document.createElement('td');
+        bittyCell.className = 'filament-detail-amount';
+        bittyCell.textContent = `${bittyData.grams}g (${bittyData.kgRounded}kg, ${formatCost(bittyData.cost)})`;
+        row.appendChild(bittyCell);
 
-        row.appendChild(name);
-        row.appendChild(amount);
-        detailEl.appendChild(row);
+        const biggyCell = document.createElement('td');
+        biggyCell.className = 'filament-detail-amount';
+        biggyCell.textContent = `${biggyData.grams}g (${biggyData.kgRounded}kg, ${formatCost(biggyData.cost)})`;
+        row.appendChild(biggyCell);
+
+        tbody.appendChild(row);
       });
+      table.appendChild(tbody);
+      detailEl.appendChild(table);
     }
   }
 }
