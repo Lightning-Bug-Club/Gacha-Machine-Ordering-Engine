@@ -76,7 +76,6 @@ export async function exportPDF({
       topY += 6;
     }
 
-    // Fill entire header area (both rows) with dark background
     doc.setFillColor(50, 50, 50);
     doc.rect(MARGIN, topY, CONTENT_W, TABLE_HEADER_H, 'F');
 
@@ -84,17 +83,11 @@ export async function exportPDF({
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
 
-    // "Part", "Bambu Color", "Hex" span both header rows — draw text centered
-    // vertically over the full header height (no horizontal divider under them).
-    const fullHeaderMidY = topY + TABLE_HEADER_H / 2 + 3; // +3 for jsPDF baseline offset
+    const fullHeaderMidY = topY + TABLE_HEADER_H / 2 + 3;
     doc.text('Part', columns.part.x + 1, fullHeaderMidY);
     doc.text('Bambu Color', columns.color.x + 1, fullHeaderMidY);
     doc.text('Hex', columns.hex.x + 1, fullHeaderMidY);
 
-    // "Filament Usage" spans Bitty+Biggy columns in the TOP sub-row only.
-    // The cell is merged both horizontally (Bitty+Biggy) and vertically
-    // (no divider crosses the label), so nudge the text up slightly to sit
-    // comfortably within the merged top sub-row.
     doc.text(
       'Filament Usage',
       columns.bitty.x + (columns.bitty.width + columns.biggy.width) / 2,
@@ -102,21 +95,14 @@ export async function exportPDF({
       { align: 'center' }
     );
 
-    // Horizontal divider ONLY under "Filament Usage" (between the two sub-rows,
-    // but only spanning the Filament Usage group columns, not Part/Color/Hex).
     doc.setDrawColor(210);
     doc.line(columns.bitty.x, topY + TABLE_HEADER_TOP_H, MARGIN + CONTENT_W, topY + TABLE_HEADER_TOP_H);
 
-    // Sub-labels "Bitty" and "Biggy" in the BOTTOM sub-row
     doc.text('Bitty', columns.bitty.x + columns.bitty.width / 2, topY + TABLE_HEADER_TOP_H + TABLE_HEADER_SUB_H / 2 + 2.4, { align: 'center' });
     doc.text('Biggy', columns.biggy.x + columns.biggy.width / 2, topY + TABLE_HEADER_TOP_H + TABLE_HEADER_SUB_H / 2 + 2.4, { align: 'center' });
 
-    // Outer border around the full header
     doc.setDrawColor(210);
     doc.rect(MARGIN, topY, CONTENT_W, TABLE_HEADER_H, 'S');
-
-    // Vertical column dividers that span the FULL header height (these do not
-    // pass through the merged "Filament Usage" cell).
     [
       columns.part.x,
       columns.color.x,
@@ -124,9 +110,6 @@ export async function exportPDF({
       columns.bitty.x,
       MARGIN + CONTENT_W,
     ].forEach(x => doc.line(x, topY, x, topY + TABLE_HEADER_H));
-
-    // Vertical divider between Bitty and Biggy ONLY in the bottom sub-row, so
-    // it does not cut through the merged "Filament Usage" label above it.
     doc.line(columns.biggy.x, topY + TABLE_HEADER_TOP_H, columns.biggy.x, topY + TABLE_HEADER_H);
 
     doc.setTextColor(0);
@@ -206,7 +189,7 @@ export async function exportPDF({
     margin: MARGIN,
     pageHeight: PAGE_H,
     contentWidth: CONTENT_W,
-    selections,
+    explicitSelections,
     windowsMaterial,
     parts,
     colors,
@@ -248,7 +231,7 @@ export async function exportPDF({
       ],
       ['Machine Time', formatCost(bitty.machineTime), formatCost(biggy.machineTime)],
     ];
-    
+
     if (bitty.windows.cost > 0) {
       rows.push([
         'Acrylic Windows',
@@ -256,7 +239,7 @@ export async function exportPDF({
         formatCost(biggy.windows.cost),
       ]);
     }
-    
+
     if (bitty.ballsAdded) {
       rows.push([
         `Clear Plastic Balls (${bitty.balls.quantity})`,
@@ -277,7 +260,6 @@ export async function exportPDF({
     const bittyColX = margin + labelW;
     const biggyColX = margin + labelW + colW;
 
-    // Bitty / Biggy column header
     doc.setFillColor(50, 50, 50);
     doc.rect(margin, yPos, contentWidth, rowH, 'F');
     doc.setDrawColor(215);
@@ -326,7 +308,7 @@ export async function exportPDF({
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(90);
-    doc.text('Cost estimate is approximate and based on filament usage, machine time, windows, and selected add-ons.', margin, yPos + 4);
+    doc.text('Cost estimate is approximate and based on explicit color selections, machine time, windows, and selected add-ons.', margin, yPos + 4);
     doc.setTextColor(0);
     return yPos + 7;
   }
@@ -336,7 +318,7 @@ export async function exportPDF({
     margin,
     pageHeight,
     contentWidth,
-    selections,
+    explicitSelections,
     windowsMaterial,
     parts,
     colors,
@@ -346,18 +328,17 @@ export async function exportPDF({
     colors.forEach(color => { colorMap[color.id] = color; });
 
     const totals = new Map();
-    parts.forEach(part => {
-      // Skip acrylic windows — they have no filament
-      if (part.id === 'window' && windowsMaterial === 'acrylic') return;
-      
-      const colorId = selections[part.id] || part.defaultColorId;
+    Object.entries(explicitSelections || {}).forEach(([partId, colorId]) => {
+      if (partId === 'window' && windowsMaterial === 'acrylic') return;
       const color = colorMap[colorId];
       if (!color) return;
-      
-      const usage = filamentUsage[part.id] || {};
+
+      const usage = filamentUsage[partId] || {};
+      const part = parts.find(entry => entry.id === partId);
+      const qty = part?.qty || 1;
       const current = totals.get(color.id) || { color, bitty: 0, biggy: 0 };
-      current.bitty += typeof usage.bitty === 'number' ? usage.bitty : 0;
-      current.biggy += typeof usage.biggy === 'number' ? usage.biggy : 0;
+      current.bitty += (typeof usage.bitty === 'number' ? usage.bitty : 0) * qty;
+      current.biggy += (typeof usage.biggy === 'number' ? usage.biggy : 0) * qty;
       totals.set(color.id, current);
     });
 
@@ -460,7 +441,6 @@ async function _drawPreviewRow(doc, slots, { pageWidth, margin, contentWidth, yP
         const drawY = yPos + (frameHeight - drawHeight) / 2;
         doc.addImage(slot.dataURL, 'PNG', drawX, drawY, drawWidth, drawHeight);
       } catch (_) {
-        // Leave the frame empty if a single image cannot be decoded.
       }
     }
 
