@@ -364,11 +364,11 @@ function _updateCostPanel(state, parts) {
   const explicitSelections = getExplicitSelections();
   const estimate = calculateBuildCost(explicitSelections, _filamentUsage, parts, state.includeBalls, state.windowsMaterial);
 
-  // Update cost displays — Bitty and Biggy filament costs differ, everything
-  // else (machine time, windows, balls add-on) is shared across both sizes.
+  // Update cost displays — Bitty and Biggy filament and machine time costs differ
   document.getElementById('cost-filament-bitty').textContent = formatCost(estimate.bitty.filament.totalCost);
   document.getElementById('cost-filament-biggy').textContent = formatCost(estimate.biggy.filament.totalCost);
-  document.getElementById('cost-machine').textContent = formatCost(estimate.bitty.machineTime);
+  document.getElementById('cost-machine-bitty').textContent = formatCost(estimate.bitty.machineTime);
+  document.getElementById('cost-machine-biggy').textContent = formatCost(estimate.biggy.machineTime);
   document.getElementById('cost-windows').textContent = estimate.bitty.windows.cost > 0
     ? formatCost(estimate.bitty.windows.cost)
     : '—';
