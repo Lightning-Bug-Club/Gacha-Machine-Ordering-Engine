@@ -50,7 +50,6 @@ let _activeUserColorSlot = null;
 let _filamentUsage = {};
 
 async function init() {
-  // ── Load data ──────────────────────────────────────────────────────────
   const [colors, parts, filamentUsage] = await Promise.all([
     loadPalette(),
     loadParts(),
@@ -59,16 +58,11 @@ async function init() {
 
   _filamentUsage = filamentUsage;
 
-  // Expose palette map globally so viewer2d.js can resolve color ids to hex
   window.__paletteMap = {};
   colors.forEach(c => { window.__paletteMap[c.id] = c; });
 
-  // ── Restore state from URL (before init so the viewer gets initial colors) ─
   decodeStateFromURL();
 
-  // Apply default colors for parts that have no URL selection, for display
-  // purposes only. These are marked as non-explicit so they never leak into
-  // the cost estimate unless the user actually chooses them.
   const state = getState();
   parts.forEach(part => {
     if (!state.selections[part.id]) {
@@ -76,15 +70,12 @@ async function init() {
     }
   });
 
-  // ── Init viewer ─────────────────────────────────────────────────────────
   const viewerEl = document.getElementById('viewer');
   await initViewer(viewerEl, 'front');
   _wireViewSelector();
   _wireZoomControls();
 
-  // ── Build parts list sidebar ──────────────────────────────────────────────
   const partsList = document.getElementById('parts-list');
-  // Exclude 'window' from the main parts list — managed separately below
   const displayParts = parts.filter(p => p.id !== 'window');
   const windowPart = parts.find(p => p.id === 'window');
 
@@ -97,7 +88,6 @@ async function init() {
     partsList.appendChild(li);
   });
 
-  // Window row — shown only when 3D-printed windows is active
   let windowLi = null;
   if (windowPart) {
     windowLi = document.createElement('li');
@@ -110,14 +100,11 @@ async function init() {
       }
     });
     partsList.appendChild(windowLi);
-    // Initial visibility
     windowLi.style.display = getState().windowsMaterial === 'printed' ? '' : 'none';
   }
 
-  // ── Windows material selector ─────────────────────────────────────────────
   _wireWindowsSelector();
 
-  // ── Build color palette grid ──────────────────────────────────────────────
   const paletteGrid = document.getElementById('palette-grid');
   _userColorSlots = _loadUserColorSlots(colors);
   _renderPaletteGroups(paletteGrid, colors, color => _assignActiveUserColorSlot(color, colors));
@@ -125,7 +112,6 @@ async function init() {
   _wireSavedBuilds();
   _wireCostPanel(parts);
 
-  // ── Color name tooltip label ──────────────────────────────────────────────
   const colorNameEl = document.getElementById('color-name');
   paletteGrid.addEventListener('mouseover', e => {
     const btn = e.target.closest('.color-swatch');
@@ -135,24 +121,19 @@ async function init() {
     colorNameEl.textContent = '';
   });
 
-  // ── Reactive UI updates ───────────────────────────────────────────────────
   subscribe(snap => {
-    // Highlight selected part in sidebar
     partsList.querySelectorAll('.part-item').forEach(li => {
       li.classList.toggle('selected', li.dataset.partId === snap.selectedPartId);
     });
 
-    // Show/hide window row based on material
     if (windowLi) {
       const show = snap.windowsMaterial === 'printed';
       windowLi.style.display = show ? '' : 'none';
-      // If switching to acrylic while window is selected, deselect it
       if (!show && snap.selectedPartId === 'window') {
         setSelectedPart(null);
       }
     }
 
-    // Show color name & swatch for selected part
     const activeColorId = snap.selectedPartId
       ? snap.selections[snap.selectedPartId]
       : null;
@@ -168,12 +149,10 @@ async function init() {
       }
     }
 
-    // Highlight active swatch in palette
     paletteGrid.querySelectorAll('.color-swatch').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.colorId === activeColorId);
     });
 
-    // Disable window color picking when "Clear acrylic" is selected
     const windowsPrinted = snap.windowsMaterial === 'printed';
     paletteGrid.querySelectorAll('.color-swatch').forEach(btn => {
       if (snap.selectedPartId === 'window' && !windowsPrinted) {
@@ -187,14 +166,10 @@ async function init() {
       }
     });
 
-    // Update cost panel
     _updateCostPanel(snap, parts);
-
-    // Push state to URL for shareability
     pushStateToURL();
   });
 
-  // ── Export PDF button ─────────────────────────────────────────────────────
   document.getElementById('btn-export-pdf').addEventListener('click', async () => {
     try {
       const previewDataURLs = await _renderPreviewSet();
@@ -216,7 +191,6 @@ async function init() {
     }
   });
 
-  // ── Share URL button ──────────────────────────────────────────────────────
   const btnShare = document.getElementById('btn-share');
   if (btnShare) {
     btnShare.addEventListener('click', () => {
@@ -229,7 +203,6 @@ async function init() {
     });
   }
 
-  // ── Reset Colors button ───────────────────────────────────────────────────
   const btnReset = document.getElementById('btn-reset-colors');
   if (btnReset) {
     btnReset.addEventListener('click', () => {
@@ -239,7 +212,6 @@ async function init() {
     });
   }
 
-  // ── Randomize button ──────────────────────────────────────────────────────
   const btnRandomize = document.getElementById('btn-randomize');
   const harmonySelect = document.getElementById('harmony-select');
   if (btnRandomize && harmonySelect) {
@@ -321,7 +293,6 @@ function _wireWindowsSelector() {
   const radios = document.querySelectorAll('input[name="windows-material"]');
   if (!radios.length) return;
 
-  // Sync radio to current state
   const currentMaterial = getState().windowsMaterial;
   radios.forEach(r => { r.checked = r.value === currentMaterial; });
 
@@ -329,7 +300,6 @@ function _wireWindowsSelector() {
     radio.addEventListener('change', () => {
       if (radio.checked) {
         setWindowsMaterial(radio.value);
-        // If switching to acrylic, deselect window part so palette isn't confusing
         if (radio.value === 'acrylic' && getState().selectedPartId === 'window') {
           setSelectedPart(null);
         }
@@ -337,7 +307,6 @@ function _wireWindowsSelector() {
     });
   });
 
-  // Keep radios in sync with state (e.g. URL restore)
   subscribe(snap => {
     radios.forEach(r => { r.checked = r.value === snap.windowsMaterial; });
   });
@@ -351,97 +320,117 @@ function _wireCostPanel(parts) {
     setIncludeBalls(ballsCheckbox.checked);
   });
 
-  // Update cost panel whenever state changes
   subscribe(snap => {
     _updateCostPanel(snap, parts);
   });
 
-  // Initial cost update
   _updateCostPanel(getState(), parts);
 }
 
 function _updateCostPanel(state, parts) {
   const explicitSelections = getExplicitSelections();
-  const estimate = calculateBuildCost(explicitSelections, _filamentUsage, parts, state.includeBalls, state.windowsMaterial);
+  const estimate = calculateBuildCost(
+    explicitSelections,
+    _filamentUsage,
+    parts,
+    state.includeBalls,
+    state.windowsMaterial,
+  );
 
-  // Update cost displays — Bitty and Biggy filament and machine time costs differ
   document.getElementById('cost-filament-bitty').textContent = formatCost(estimate.bitty.filament.totalCost);
   document.getElementById('cost-filament-biggy').textContent = formatCost(estimate.biggy.filament.totalCost);
-  document.getElementById('cost-machine-bitty').textContent = formatCost(estimate.bitty.machineTime);
-  document.getElementById('cost-machine-biggy').textContent = formatCost(estimate.biggy.machineTime);
-  document.getElementById('cost-windows').textContent = estimate.bitty.windows.cost > 0
-    ? formatCost(estimate.bitty.windows.cost)
-    : '—';
+
+  const machineBittyEl = document.getElementById('cost-machine-bitty');
+  const machineBiggyEl = document.getElementById('cost-machine-biggy');
+  if (machineBittyEl && machineBiggyEl) {
+    machineBittyEl.textContent = formatCost(estimate.bitty.machineTime);
+    machineBiggyEl.textContent = formatCost(estimate.biggy.machineTime);
+  } else {
+    const machineSharedEl = document.getElementById('cost-machine');
+    if (machineSharedEl) machineSharedEl.textContent = formatCost(estimate.bitty.machineTime);
+  }
+
+  const windowsEl = document.getElementById('cost-windows');
+  if (windowsEl) {
+    windowsEl.textContent = estimate.bitty.windows?.cost > 0
+      ? formatCost(estimate.bitty.windows.cost)
+      : '—';
+  }
+
   document.getElementById('cost-balls').textContent = state.includeBalls
     ? formatCost(estimate.bitty.balls.cost)
     : '—';
   document.getElementById('cost-total-bitty').textContent = formatCost(estimate.bitty.total);
   document.getElementById('cost-total-biggy').textContent = formatCost(estimate.biggy.total);
 
-  // Update filament breakdown detail (color name + grams/cost per color, Bitty vs Biggy)
   const detailEl = document.getElementById('filament-detail');
-  if (detailEl) {
-    detailEl.innerHTML = '';
-    const colorIds = new Set([
-      ...Object.keys(estimate.bitty.filament.colorBreakdown),
-      ...Object.keys(estimate.biggy.filament.colorBreakdown),
-    ]);
+  if (!detailEl) return;
 
-    if (colorIds.size > 0) {
-      const colors = getColors();
-      const colorMap = {};
-      colors.forEach(c => { colorMap[c.id] = c; });
+  detailEl.innerHTML = '';
+  const colorIds = new Set([
+    ...Object.keys(estimate.bitty.filament.colorBreakdown),
+    ...Object.keys(estimate.biggy.filament.colorBreakdown),
+  ]);
 
-      // Create table structure
-      const table = document.createElement('table');
-      table.className = 'filament-detail-table';
+  if (colorIds.size === 0) return;
 
-      // Table header
-      const thead = document.createElement('thead');
-      const headerRow = document.createElement('tr');
-      const headerColor = document.createElement('th');
-      headerColor.textContent = 'Color';
-      const headerBitty = document.createElement('th');
-      headerBitty.textContent = 'Bitty';
-      const headerBiggy = document.createElement('th');
-      headerBiggy.textContent = 'Biggy';
-      headerRow.appendChild(headerColor);
-      headerRow.appendChild(headerBitty);
-      headerRow.appendChild(headerBiggy);
-      thead.appendChild(headerRow);
-      table.appendChild(thead);
+  const colors = getColors();
+  const colorMap = {};
+  colors.forEach(c => { colorMap[c.id] = c; });
 
-      // Table body
-      const tbody = document.createElement('tbody');
-      colorIds.forEach(colorId => {
-        const color = colorMap[colorId];
-        if (!color) return;
-        const bittyData = estimate.bitty.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
-        const biggyData = estimate.biggy.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
+  const table = document.createElement('table');
+  table.className = 'filament-detail-table';
 
-        const row = document.createElement('tr');
+  const thead = document.createElement('thead');
+  const headerRow = document.createElement('tr');
+  ['Color', 'Bitty', 'Biggy'].forEach(label => {
+    const th = document.createElement('th');
+    th.textContent = label;
+    headerRow.appendChild(th);
+  });
+  thead.appendChild(headerRow);
+  table.appendChild(thead);
 
-        const nameCell = document.createElement('td');
-        nameCell.className = 'filament-detail-color';
-        nameCell.textContent = color.name;
-        row.appendChild(nameCell);
+  const tbody = document.createElement('tbody');
+  Array.from(colorIds)
+    .sort((a, b) => {
+      const aColor = colorMap[a]?.name || a;
+      const bColor = colorMap[b]?.name || b;
+      return aColor.localeCompare(bColor);
+    })
+    .forEach(colorId => {
+      const color = colorMap[colorId];
+      if (!color) return;
 
-        const bittyCell = document.createElement('td');
-        bittyCell.className = 'filament-detail-amount';
-        bittyCell.textContent = `${bittyData.grams}g (${bittyData.kgRounded}kg, ${formatCost(bittyData.cost)})`;
-        row.appendChild(bittyCell);
+      const bittyData = estimate.bitty.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
+      const biggyData = estimate.biggy.filament.colorBreakdown[colorId] || { grams: 0, kgRounded: 0, cost: 0 };
 
-        const biggyCell = document.createElement('td');
-        biggyCell.className = 'filament-detail-amount';
-        biggyCell.textContent = `${biggyData.grams}g (${biggyData.kgRounded}kg, ${formatCost(biggyData.cost)})`;
-        row.appendChild(biggyCell);
+      if (bittyData.grams <= 0 && biggyData.grams <= 0) return;
 
-        tbody.appendChild(row);
-      });
-      table.appendChild(tbody);
-      detailEl.appendChild(table);
-    }
-  }
+      const row = document.createElement('tr');
+
+      const nameCell = document.createElement('td');
+      nameCell.className = 'filament-detail-color';
+      nameCell.textContent = color.name;
+      row.appendChild(nameCell);
+
+      const bittyCell = document.createElement('td');
+      bittyCell.className = 'filament-detail-amount';
+      bittyCell.textContent = `${bittyData.grams}g (${bittyData.kgRounded}kg, ${formatCost(bittyData.cost)})`;
+      row.appendChild(bittyCell);
+
+      const biggyCell = document.createElement('td');
+      biggyCell.className = 'filament-detail-amount';
+      biggyCell.textContent = `${biggyData.grams}g (${biggyData.kgRounded}kg, ${formatCost(biggyData.cost)})`;
+      row.appendChild(biggyCell);
+
+      tbody.appendChild(row);
+    });
+
+  if (!tbody.children.length) return;
+
+  table.appendChild(tbody);
+  detailEl.appendChild(table);
 }
 
 function _renderPaletteGroups(containerEl, colors, onSwatchClick = null) {
@@ -496,7 +485,6 @@ function _renderPaletteGroups(containerEl, colors, onSwatchClick = null) {
           _showToast('Select a part first, then choose a color.');
           return;
         }
-        // Block window color selection when acrylic is chosen
         if (selectedPartId === 'window' && windowsMaterial === 'acrylic') {
           _showToast('Switch to "3D printed windows" to choose a window color.');
           return;
@@ -690,7 +678,6 @@ function _saveUserColorSlots() {
   try {
     window.localStorage.setItem(USER_COLORS_STORAGE_KEY, JSON.stringify(_userColorSlots));
   } catch (_) {
-    // Ignore storage write errors and keep in-memory state.
   }
 }
 
@@ -725,7 +712,6 @@ async function _loadFilamentUsage() {
   }
 }
 
-/** Convert the current inline SVG view to a PNG data URL via canvas. */
 async function _svgToDataURL(svgEl) {
   const clone = svgEl.cloneNode(true);
   clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
@@ -791,7 +777,6 @@ function _viewLabel(viewName) {
   return ({ front: 'Front', side: 'Side', back: 'Back' })[viewName] || 'Front';
 }
 
-/** Show a brief toast notification. */
 function _showToast(msg) {
   let toast = document.getElementById('toast');
   if (!toast) {
