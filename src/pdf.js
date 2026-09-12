@@ -213,7 +213,7 @@ export async function exportPDF({
     filamentUsage,
   });
 
-  const costEstimate = calculateBuildCost(explicitSelections, filamentUsage, parts, includeBalls);
+  const costEstimate = calculateBuildCost(explicitSelections, filamentUsage, parts, includeBalls, windowsMaterial);
   yPos = _drawCostEstimate(doc, {
     yPos: yPos + 7,
     margin: MARGIN,
@@ -248,6 +248,15 @@ export async function exportPDF({
       ],
       ['Machine Time', formatCost(bitty.machineTime), formatCost(biggy.machineTime)],
     ];
+    
+    if (bitty.windows.cost > 0) {
+      rows.push([
+        'Windows (Acrylic)',
+        formatCost(bitty.windows.cost),
+        formatCost(biggy.windows.cost),
+      ]);
+    }
+    
     if (bitty.ballsAdded) {
       rows.push([
         `Clear Plastic Balls (${bitty.balls.quantity})`,
@@ -317,7 +326,7 @@ export async function exportPDF({
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(7.5);
     doc.setTextColor(90);
-    doc.text('Cost estimate is approximate and based on filament usage, machine time, and selected add-ons.', margin, yPos + 4);
+    doc.text('Cost estimate is approximate and based on filament usage, machine time, windows, and selected add-ons.', margin, yPos + 4);
     doc.setTextColor(0);
     return yPos + 7;
   }
